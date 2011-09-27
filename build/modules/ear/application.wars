@@ -1,0 +1,15 @@
+
+                <module>
+                <web>
+                    <web-uri>isocial-notes.war</web-uri>
+                    <context-root>isocial-sheets/isocial-notes.war</context-root>
+                </web>
+                </module>
+                
+                <module>
+                <web>
+                    <web-uri>isocial-sample.war</web-uri>
+                    <context-root>isocial-sheets/isocial-sample.war</context-root>
+                </web>
+                </module>
+                
