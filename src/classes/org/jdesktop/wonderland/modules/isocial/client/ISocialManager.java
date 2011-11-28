@@ -47,7 +47,7 @@ import org.jdesktop.wonderland.client.hud.HUDManagerFactory;
 import org.jdesktop.wonderland.client.jme.JmeClientMain;
 import org.jdesktop.wonderland.client.login.ServerSessionManager;
 import org.jdesktop.wonderland.common.utils.ScannedClassLoader;
-import org.jdesktop.wonderland.modules.dock.client.DockManager;
+//import org.jdesktop.wonderland.modules.dock.client.DockManager;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialConnection.ISocialConnectionListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.DockableSheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
@@ -857,7 +857,7 @@ public enum ISocialManager {
             if (view instanceof DockableSheetView) {
                 DockableSheetView dockSheetView = (DockableSheetView) view;
                 if (dockSheetView.isDockable()) {
-                    DockManager.getInstance().register(component);
+//                    DockManager.getInstance().register(component);
                 }
             }
         }

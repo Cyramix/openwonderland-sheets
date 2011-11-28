@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import org.jdesktop.wonderland.modules.colormanager.client.ColorManager;
+//import org.jdesktop.wonderland.modules.colormanager.client.ColorManager;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
@@ -52,17 +52,22 @@ public class TokenStudentPanel extends ImageIcon {
         //super(url);
         this.userName = manager.getUsername();
         this.manager = manager;
-        try {
-            if (manager.getCurrentRole() == Role.STUDENT) {
-                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), userName);
-            } else {
-                meterColor = Color.decode("#FFFFFF");
-            }
-            String url = ImageManager.getImageNameFor(meterColor);
-            image = Toolkit.getDefaultToolkit().createImage(getClass().getResource(url));
-        } catch (IOException ex) {
-            Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        meterColor = Color.decode("#FFFFFF");
+        String url = ImageManager.getImageNameFor(meterColor);
+        image = Toolkit.getDefaultToolkit().createImage(getClass().getResource(url));
+//        try {
+//            if (manager.getCurrentRole() == Role.STUDENT) {
+//                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), userName);
+//            } else {
+//                meterColor = Color.decode("#FFFFFF");
+//            }
+//            String url = ImageManager.getImageNameFor(meterColor);
+//            image = Toolkit.getDefaultToolkit().createImage(getClass().getResource(url));
+//            
+//        } catch (IOException ex) {
+//            Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         tracker.addImage(image, 0);
         try {
             tracker.waitForID(0);
@@ -138,27 +143,29 @@ public class TokenStudentPanel extends ImageIcon {
     void updateTokens(Collection<Result> results) {
         calculateTotalTokens(results);
         for (Result result : results) {
-            try {
-                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), result.getCreator());
-                updateStudentTokens((TokenResult) result.getDetails());
-            } catch (IOException ex) {
-                Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), result.getCreator());
+//                updateStudentTokens((TokenResult) result.getDetails());
+//            } catch (IOException ex) {
+//                Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            updateStudentTokens((TokenResult)result.getDetails());
         }
     }
 
     synchronized void resetImage() {
         graphics.drawImage(image, 0, 0, component);
         startMeterX = 20 * iWidth / 100;
-        try {
-            if (manager.getCurrentRole() == Role.STUDENT) {
-                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), userName);
-            } else {
-                meterColor = Color.decode("#FFFFFF");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        meterColor = Color.decode("#FFFFFF");
+//        try {
+//            if (manager.getCurrentRole() == Role.STUDENT) {
+//                meterColor = ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), userName);
+//            } else {
+//                meterColor = Color.decode("#FFFFFF");
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(TokenStudentPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     private void calculateTotalTokens(Collection<Result> results) {

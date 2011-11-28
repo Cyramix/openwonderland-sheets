@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jdesktop.wonderland.modules.colormanager.client.ColorManager;
+//import org.jdesktop.wonderland.modules.colormanager.client.ColorManager;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.Student;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
@@ -42,11 +42,12 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
         this.pass = student.getPassesValue();
         this.strike = student.getStrikesValue();
         tokenInc.setText(student.getName());
-        try {
-            tokenInc.setBackground(ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), student.getName()));
-        } catch (IOException ex) {
-            Logger.getLogger(StudentDetailsPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            
+//            tokenInc.setBackground(ColorManager.getInstance().getColorFor(manager.getCurrentInstance().getCohortId(), student.getName()));
+//        } catch (IOException ex) {
+//            Logger.getLogger(StudentDetailsPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         tokens.setText(String.valueOf(token) + "/10");
         passes.setText(String.valueOf(pass));
         strikes.setText(String.valueOf(strikeValues[strike]));
