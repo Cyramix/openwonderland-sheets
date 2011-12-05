@@ -418,7 +418,8 @@ public class GenericSheetGuideView extends JPanel
         Collections.reverse(instances);
         for (Object object : instances) {
             Instance instance = (Instance) object;
-            if (instance.getUnit() == manager.getCurrentInstance().getUnit()) {
+            if (!(instance.getId().equals(manager.getCurrentInstance().getId()))) {
+                if (instance.getUnit().getId().equals(manager.getCurrentInstance().getUnit().getId())) {
                 for (Sheet s : instance.getSheets()) {
                     // check if this sheet is a setter matching this getter
                     if (s.getName().equalsIgnoreCase(name)) {
@@ -429,6 +430,7 @@ public class GenericSheetGuideView extends JPanel
                     }
                 }
             }
+        }
         }
         // not found
         return results;
@@ -451,7 +453,7 @@ public class GenericSheetGuideView extends JPanel
         for (Object object : instances) {
             Instance instance = (Instance) object;
             if (!(instance.getId().equals(manager.getCurrentInstance().getId()))) {
-                if (instance.getUnit() == manager.getCurrentInstance().getUnit()) {
+                if (instance.getUnit().getId().equals(manager.getCurrentInstance().getUnit().getId())) {
                     for (Sheet s : instance.getSheets()) {
                         // check if this sheet is a setter matching this getter
                         if (s.getName().equalsIgnoreCase(name)) {
