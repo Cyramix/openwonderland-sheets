@@ -17,13 +17,13 @@
         <link href="/wonderland-web-front/css/module.css" rel="stylesheet" type="text/css" media="screen" /-->
 
         <link href="css/isocial.css" rel="stylesheet" type="text/css" media="screen" />
-        <link href="css/ui-lightness/jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/wonderland-web-front/css/wonderland-theme/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="css/jquery.treeTable.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="css/jquery.ui.selectmenu.css" rel="stylesheet" type="text/css" media="screen" />
 
-        <script src="scripts/json2.js" type="text/javascript"></script>
-        <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
-        <script src="scripts/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+        <script src="/wonderland-web-front/javascript/json2.min.js" type="text/javascript"></script>
+        <script src="/wonderland-web-front/javascript/jquery.min.js" type="text/javascript"></script>
+        <script src="/wonderland-web-front/javascript/jquery-ui.min.js" type="text/javascript"></script>      
         <script src="scripts/jquery.treeTable.js" type="text/javascript"></script>
         <script src="scripts/jquery.ui.selectmenu.js" type="text/javascript"></script>
         <script src="scripts/isocial.js" type="text/javascript"></script>

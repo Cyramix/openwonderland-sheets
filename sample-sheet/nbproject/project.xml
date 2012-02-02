@@ -3,11 +3,11 @@
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>iSocial-sample-sheet</name>
+            <name>openwonderland-sample-sheet</name>
         </general-data>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
             <!-- Do not use Project Properties customizer when editing this file manually. -->
-            <name>iSocial-sample-sheet</name>
+            <name>openwonderland-sample-sheet</name>
             <properties/>
             <folders>
                 <source-folder>
@@ -76,7 +76,7 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src/classes</package-root>
-                <classpath mode="compile">../../../wonderland/core/build/lib/wonderland-client.jar:../../../wonderland/core/build/lib/wonderland-common.jar:../../../wonderland/core/build/lib/wonderland-server.jar:../../../wonderland/core/ext/sgs/sgs-server-dist-0.9.10/lib/sgs-server-api-0.9.10.jar:../../../wonderland/core/ext/common/mtgame.jar:../../../wonderland/core/ext/jme20/target/jme.jar:../../../wonderland/core/ext/common/vecmath.jar:../../../wonderland/modules/tools/sharedstate/build/client/sharedstate-client.jar:../../../wonderland/modules/tools/sharedstate/build/server/sharedstate-server.jar:../../../wonderland/modules/foundation/security/build/lib/client/security-client.jar:../../../wonderland/modules/foundation/security/build/lib/server/security-server.jar:../../../wonderland/web/lib/glassfish/glassfish-embedded-all-3.0-b74b.jar:../../../wonderland/web/lib/restlib/jsr311-api-1.1.1.jar:../../../wonderland/modules/foundation/darkstar-api/build/lib/darkstar-api.jar:../../../wonderland/web/front/dist/wonderland-webadmin-core.jar:../build/client/isocial-sheets-client.jar:../build/server/isocial-sheets-server.jar:../build/lib/web/isocial-sheets-weblib.jar</classpath>
+                <classpath mode="compile">../../wonderland/core/build/lib/wonderland-client.jar:../../wonderland/core/build/lib/wonderland-common.jar:../../wonderland/core/build/lib/wonderland-server.jar:../../wonderland/core/ext/sgs/sgs-server-dist-0.9.10/lib/sgs-server-api-0.9.10.jar:../../wonderland/core/ext/common/mtgame.jar:../../wonderland/core/ext/jme20/target/jme.jar:../../wonderland/core/ext/common/vecmath.jar:../../wonderland/modules/tools/sharedstate/build/client/sharedstate-client.jar:../../wonderland/modules/tools/sharedstate/build/server/sharedstate-server.jar:../../wonderland/modules/foundation/security/build/lib/client/security-client.jar:../../wonderland/modules/foundation/security/build/lib/server/security-server.jar:../../wonderland/web/lib/glassfish/glassfish-embedded-all-3.0-b74b.jar:../../wonderland/web/lib/restlib/jsr311-api-1.1.1.jar:../../wonderland/modules/foundation/darkstar-api/build/lib/darkstar-api.jar:../../wonderland/web/front/dist/wonderland-webadmin-core.jar:../build/client/isocial-sheets-client.jar:../build/server/isocial-sheets-server.jar:../build/lib/web/isocial-sheets-weblib.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
