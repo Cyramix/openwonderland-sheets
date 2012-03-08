@@ -62,6 +62,7 @@
 
             // create a styled select menu
             $('select#' + unit.id + "-" + lesson.id + "-select").selectmenu({
+                style: 'dropdown',
                 select: function(event, options) {
                     switch (options.value) {
                         case "edit":
