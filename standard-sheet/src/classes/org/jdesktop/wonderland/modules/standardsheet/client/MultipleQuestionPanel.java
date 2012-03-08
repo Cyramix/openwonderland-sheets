@@ -189,10 +189,10 @@ public class MultipleQuestionPanel implements StandardQuestionPanel {
         AbstractButton out;
         
         if (multiple) {
+            out = new JCheckBox(text);
+        } else {
             out = new JRadioButton(text);
             bg.add((JRadioButton) out);
-        } else {
-            out = new JCheckBox(text);
         }
         
         return out;

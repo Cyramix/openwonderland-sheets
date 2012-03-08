@@ -51,9 +51,11 @@ import org.jdesktop.wonderland.modules.standardsheet.common.StandardSheet;
  * @author Jonathan Kaplan <jonathankap@wonderbuilders.com>
  */
 public class StandardSheetPanel extends javax.swing.JPanel {
-    private StandardSheet sheet;
     private final List<StandardQuestionPanel> panels =
             new ArrayList<StandardQuestionPanel>();
+    
+    private StandardSheet sheet;
+    private boolean editable = true;
     
     /**
      * Creates new form StandardSheetPanel
@@ -72,7 +74,8 @@ public class StandardSheetPanel extends javax.swing.JPanel {
             StandardQuestionPanel panel = createPanelFor(question);
             if (panel != null) {
                 panels.add(panel);
-
+                panel.setEditable(isEditable());
+                
                 for (JComponent component : panel.getJComponents(getWidth())) {
                     GridBagConstraints gbc = new GridBagConstraints();
                     gbc.gridx = 0;
@@ -127,9 +130,15 @@ public class StandardSheetPanel extends javax.swing.JPanel {
     }
     
     protected void setEditable(boolean editable) {
+        this.editable = editable;
+        
         for (StandardQuestionPanel panel : getPanels()) {
             panel.setEditable(editable);
         }
+    }
+    
+    protected boolean isEditable() {
+        return editable;
     }
     
     private StandardQuestionPanel findPanel(int id) {

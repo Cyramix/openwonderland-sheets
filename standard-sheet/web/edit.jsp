@@ -631,12 +631,12 @@
                     <ul>
                     {{#choices}}
                         <li>
-                        <input type={{#string-if ../multiple}}"radio"{{else}}"checkbox"{{/string-if}} name="question-{{../id}}-radio"/>
+                        <input type={{#string-if ../multiple}}"checkbox"{{else}}"radio"{{/string-if}} name="question-{{../id}}-radio"/>
                         <label>{{this}}</label>
                     {{/choices}}
                     {{#if other}}
                         <li class="other-li">
-                        <input type={{#string-if multiple}}"radio"{{else}}"checkbox"{{/string-if}}" name="question-{{id}}-radio"/>
+                        <input type={{#string-if multiple}}"checkbox"{{else}}"radio"{{/string-if}}" name="question-{{id}}-radio"/>
                         <label>Other {{#if otherText}}({{otherText}}){{/if}}:</label>
                         <textarea rows="1" class="ui-widget ui-corner-all" readonly="true"/>
                     {{/if}}
