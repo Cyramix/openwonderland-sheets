@@ -20,9 +20,10 @@ package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.ResourceBundle;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -38,6 +39,7 @@ import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.common.ResultType;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 
@@ -53,37 +55,27 @@ public class TokenStudentView
 
     private static final Logger LOGGER =
             Logger.getLogger(TokenStudentView.class.getName());
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
-            "org/jdesktop/wonderland/modules/isocial/tokensheet/client/Bundle");
     private ISocialManager manager;
     private Sheet sheet;
     private Role role;
     private TokenStudentPanel panel;
     private HUDComponent component;
-    private URL audioSource;
     private Color color;
     private JLabel tokenLabel;
+    private int maxLimit;
 
     public void initialize(ISocialManager manager, Sheet sheet, Role role) {
         this.manager = manager;
         this.sheet = sheet;
         this.role = role;
-        this.panel = new TokenStudentPanel(manager);
-        this.audioSource = getClass().getResource(BUNDLE.getString("audioSource"));
+        this.panel = new TokenStudentPanel(manager, sheet);
+        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+        int maxStudents = ((TokenSheet) sheet.getDetails()).getMaxStudents();
+        this.maxLimit = maxStudents * maxLessonTokens;
+
         manager.addResultListener(sheet.getId(), this);
         try {
-            Collection<Result> results = manager.getResults(sheet.getId());
-            Result myResult = null;
-            for (Result r : results) {
-                if (r.getCreator().equals(manager.getUsername())) {
-                    myResult = r;
-                    panel.updateStudentTokens((TokenResult) r.getDetails());
-                }
-            }
-            if (myResult != null) {
-                results.remove(myResult);
-            }
-            panel.updateTokens(results);
+            sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
         } catch (IOException ioe) {
             LOGGER.log(Level.WARNING, "Error reading results", ioe);
         }
@@ -106,6 +98,7 @@ public class TokenStudentView
         //component = hud.createImageComponent(imageIcon);
         component.setDecoratable(false);
         component.setPreferredLocation(Layout.NORTHWEST);
+        component.setPreferredTransparency(1.0f);
         component.setTransparency(1.0f);
         return component;
     }
@@ -115,20 +108,22 @@ public class TokenStudentView
     }
 
     public void resultAdded(final Result result) {
-//        if (result.getCreator().equals(manager.getUsername())) {
-//            try {
-//                SoftphoneControlImpl.getInstance().sendCommandToSoftphone("playFile=" + audioSource.toString() + "=" + 50);
-//            } catch (IOException ex) {
-//                Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        if (result.getCreator().equals(manager.getUsername())) {
+            if (result.getDetails() instanceof TokenResult) {
+                TokenResult tResult = (TokenResult) result.getDetails();
+                if (tResult.getType() == ResultType.TOKEN_INC) {
+                    TokenSoundPlayer.getInstance().playTokenSound();
+                }
+            }
+        }
+
 
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
                 panel.resetImage();
                 try {
-                    panel.updateTokens(manager.getResults(sheet.getId()));
+                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
                     tokenLabel.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,25 +133,46 @@ public class TokenStudentView
     }
 
     public void resultUpdated(final Result result) {
-//        if (result.getCreator().equals(manager.getUsername())) {
-//            try {
-//                SoftphoneControlImpl.getInstance().sendCommandToSoftphone("playFile=" + audioSource.toString() + "=" + 50);
-//            } catch (IOException ex) {
-//                Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        if (result.getCreator().equals(manager.getUsername())) {
+            if (result.getDetails() instanceof TokenResult) {
+                TokenResult tResult = (TokenResult) result.getDetails();
+                if (tResult.getType() == ResultType.TOKEN_INC) {
+                    TokenSoundPlayer.getInstance().playTokenSound();
+                }
+            }
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
                 panel.resetImage();
                 try {
-                    panel.updateTokens(manager.getResults(sheet.getId()));
+                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
                     tokenLabel.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
+    }
+
+    /**
+     * 
+     * @param results 
+     */
+    private void sortAndDisplayTokens(ArrayList<Result> results, TokenStudentPanel panel, int limit) {
+        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+        if (results.size() > 0 && maxLessonTokens > 0) {
+            limit = results.size() * maxLessonTokens;
+        }
+        Collections.sort(results, new Comparator<Result>() {
+
+            public int compare(Result r1, Result r2) {
+                String creator1 = r1.getCreator().toLowerCase();
+                String creator2 = r2.getCreator().toLowerCase();
+                return Collator.getInstance().compare(creator1, creator2);
+            }
+        });
+        panel.updateTokens(results, limit, false);
     }
 }

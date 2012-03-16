@@ -82,10 +82,15 @@ public class GenericSheetGuideView extends JPanel
         this.sheet = sheet;
         this.role = role;
         resutlsReceived = new HashMap<String, Boolean>();
+        manager.addResultListener(this.sheet.getId(), this);
 
         Sheet prevSheet = null;
         Collection<Result> prevResults = null;
 
+        /**
+         * Check if the sheet is singleton (Unit goal sheet). 
+         * If yes, find the previously submitted goal results and display them.
+         */
         boolean singleton = ((GenericSheet) sheet.getDetails()).getSingleton();
         if (singleton) {
             try {
@@ -104,7 +109,6 @@ public class GenericSheetGuideView extends JPanel
         studentTable.setDefaultRenderer(Object.class, new CustomTableRenderer());
         setTableRenderers();
 
-        manager.addResultListener(this.sheet.getId(), this);
         try {
             if (prevResults != null) {
                 for (Result result : prevResults) {
@@ -418,7 +422,7 @@ public class GenericSheetGuideView extends JPanel
         Collections.reverse(instances);
         for (Object object : instances) {
             Instance instance = (Instance) object;
-            if (!(instance.getId().equals(manager.getCurrentInstance().getId()))) {
+            //if (!(instance.getId().equals(manager.getCurrentInstance().getId()))) {
                 if (instance.getUnit().getId().equals(manager.getCurrentInstance().getUnit().getId())) {
                 for (Sheet s : instance.getSheets()) {
                     // check if this sheet is a setter matching this getter
@@ -430,7 +434,7 @@ public class GenericSheetGuideView extends JPanel
                     }
                 }
             }
-        }
+            //}
         }
         // not found
         return results;
@@ -447,6 +451,9 @@ public class GenericSheetGuideView extends JPanel
         return results;
     }
 
+    /**
+     * Find the matching sheet from previous instances.
+     */
     private Sheet findPrevSheet(String name) throws IOException {
         List instances = new ArrayList(manager.getInstances());
         Collections.reverse(instances);

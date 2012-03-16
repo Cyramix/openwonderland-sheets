@@ -63,6 +63,7 @@ import org.jdesktop.wonderland.modules.isocial.common.model.ResultDetails;
 import org.jdesktop.wonderland.modules.isocial.common.model.ResultMetadata;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.common.model.SheetDetails;
 
 /**
  * Manager for interacting with iSocial objects on web server
@@ -262,6 +263,46 @@ public enum ISocialManager {
 
         ISocialModelCollection<Instance> ic = (ISocialModelCollection<Instance>) getObject("instances?cohortId=" + i.getCohortId());
         return ic.getItems();
+    }
+
+    /**
+     * Get all the instances belonging to current unit.
+     * @return
+     * @throws IOException 
+     */
+    public Collection<Instance> getCurrentUnitInstances() throws IOException {
+        Collection<Instance> instances = getInstances();
+        String currentUnitId = getCurrentInstance().getUnit().getId();
+
+        for (Iterator<Instance> i = instances.iterator(); i.hasNext();) {
+            Instance instance = i.next();
+            if (!instance.getUnit().getId().equals(currentUnitId)) {
+                i.remove();
+            }
+        }
+
+        return instances;
+    }
+
+    /**
+     * Get all the result for current unit from all previous instances.
+     * @return
+     * @throws IOException 
+     */
+    public Collection<Result> getCurrentUnitResults(SheetDetails details) throws IOException {
+        Collection<Instance> currentUnitInstances = getCurrentUnitInstances();
+        ArrayList<Result> out = new ArrayList<Result>();
+
+        for (Iterator<Instance> it = currentUnitInstances.iterator(); it.hasNext();) {
+            Instance instance = it.next();
+            List<Sheet> sheets = instance.getSheets();
+            for (Sheet sheet : sheets) {
+                if (sheet.getDetails().getTypeName().equals(details.getTypeName())) {
+                    out.addAll(getResultsForInstance(instance.getId(), sheet.getId()));
+                }
+            }
+        }
+        return out;
     }
 
     /**

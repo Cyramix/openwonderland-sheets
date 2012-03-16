@@ -1,3 +1,21 @@
+/**
+ * iSocial Project
+ * http://isocial.missouri.edu
+ *
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ *
+ * Redistributions in source code form must reproduce the above
+ * copyright and this condition.
+ *
+ * The contents of this file are subject to the GNU General Public
+ * License, Version 2 (the "License"); you may not use this file
+ * except in compliance with the License. A copy of the License is
+ * available at http://www.opensource.org/licenses/gpl-license.php.
+ *
+ * The iSocial project designates this particular file as
+ * subject to the "Classpath" exception as provided by the iSocial
+ * project in the License file that accompanied this code.
+ */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
 import java.awt.Color;
@@ -14,9 +32,13 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import org.jdesktop.wonderland.modules.isocial.common.model.ResultDetails;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 
 /**
+ * Creates the Passes and strikes panel for token and behavior system. The panel
+ * contains a label with an image to show the student's current passes and 
+ * strikes.
  *
  * @author Kaustubh
  */
@@ -54,14 +76,14 @@ public class PassStrikeStudentPanel extends ImageIcon {
         iHeight = image.getHeight(component);
         passD = new CustomDimension[3];
         strikeD = new CustomDimension[4];
-        passD[0] = new CustomDimension(56, 11, 14, 14);
-        passD[1] = new CustomDimension(59, 33, 14, 14);
-        passD[2] = new CustomDimension(52, 53, 14, 14);
+        passD[0] = new CustomDimension(57, 8, 14, 14);
+        passD[1] = new CustomDimension(62, 31, 14, 14);
+        passD[2] = new CustomDimension(53, 51, 14, 14);
 
-        strikeD[0] = new CustomDimension(135, 1, 14, 14);
-        strikeD[1] = new CustomDimension(149, 18, 14, 14);
-        strikeD[2] = new CustomDimension(149, 40, 14, 14);
-        strikeD[3] = new CustomDimension(136, 57, 14, 14);
+        strikeD[0] = new CustomDimension(92, 1, 14, 14);
+        strikeD[1] = new CustomDimension(144, 3, 14, 14);
+        strikeD[2] = new CustomDimension(151, 24, 14, 14);
+        strikeD[3] = new CustomDimension(144, 45, 14, 14);
     }
 
     public ImageIcon getImageIcon() {
@@ -104,6 +126,9 @@ public class PassStrikeStudentPanel extends ImageIcon {
         }
     }
 
+    /**
+     * Updates the images upon student getting the pass or strikes from guide
+     */
     synchronized void updateStudentStrikesPasses(TokenResult tokenResult) {
         this.details = tokenResult;
         paintIcon(component, graphics, 25, 45);
@@ -114,6 +139,10 @@ public class PassStrikeStudentPanel extends ImageIcon {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(e);
     }
 
+    /**
+     * Resets the image to initial state before updating any passes and strikes
+     * to it.
+     */
     synchronized void resetImage() {
         graphics.drawImage(image, 0, 0, component);
     }

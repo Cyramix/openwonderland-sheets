@@ -1,18 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * OEQPanel.java
+/**
+ * iSocial Project
+ * http://isocial.missouri.edu
  *
- * Created on Apr 11, 2011, 3:23:50 PM
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ *
+ * Redistributions in source code form must reproduce the above
+ * copyright and this condition.
+ *
+ * The contents of this file are subject to the GNU General Public
+ * License, Version 2 (the "License"); you may not use this file
+ * except in compliance with the License. A copy of the License is
+ * available at http://www.opensource.org/licenses/gpl-license.php.
+ *
+ * The iSocial project designates this particular file as
+ * subject to the "Classpath" exception as provided by the iSocial
+ * project in the License file that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.generic.client;
 
 /**
+ * The panel to show open ended questions.
  *
- * @author 118London
+ * @author Kaustubh
  */
 public class OEQPanel extends javax.swing.JPanel {
 

@@ -37,6 +37,8 @@ public class TokenResult extends ResultDetails {
 
     //@XmlTransient
     private Student studentResult;
+    
+    private ResultType type;
 
     public TokenResult() {
         studentResult = new Student();
@@ -49,6 +51,14 @@ public class TokenResult extends ResultDetails {
     //@XmlElement
     public Student getStudentResult() {
         return studentResult;
+    }
+
+    public ResultType getType() {
+        return type;
+    }
+
+    public void setType(ResultType type) {
+        this.type = type;
     }
 
     @Override

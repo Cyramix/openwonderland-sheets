@@ -1,8 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * iSocial Project
+ * http://isocial.missouri.edu
+ *
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ *
+ * Redistributions in source code form must reproduce the above
+ * copyright and this condition.
+ *
+ * The contents of this file are subject to the GNU General Public
+ * License, Version 2 (the "License"); you may not use this file
+ * except in compliance with the License. A copy of the License is
+ * available at http://www.opensource.org/licenses/gpl-license.php.
+ *
+ * The iSocial project designates this particular file as
+ * subject to the "Classpath" exception as provided by the iSocial
+ * project in the License file that accompanied this code.
  */
-
 package org.jdesktop.wonderland.modules.isocial.timer.client;
 
 import java.awt.BasicStroke;
@@ -15,11 +28,14 @@ import java.awt.RenderingHints;
 import java.awt.geom.*;
 import java.util.List;
 import javax.swing.JComponent;
+import org.jdesktop.wonderland.modules.isocial.common.model.Result;
+import org.jdesktop.wonderland.modules.isocial.common.model.ResultDetails;
+import org.jdesktop.wonderland.modules.isocial.timer.common.TimerResult;
 import org.jdesktop.wonderland.modules.isocial.timer.common.TimerSection;
 
 /**
  *
- * @author Seungchan Lee <leeseungc@missouri.edu>
+ * @author Kaustubh, Ryan @isocial
  */
 public class TimerCanvas extends JComponent {
 
@@ -45,21 +61,21 @@ public class TimerCanvas extends JComponent {
         //Aggregate of all sections. i.e. 15 minutes + 15 minutes = 30 minutes
         int totalTime = 0;
 
-        for(TimerSection section: sections) {
+        for (TimerSection section : sections) {
             totalTime += section.getSectionTime();
         }
 
-        float multiplier = (float)rectHeight/(float)totalTime;
+        float multiplier = (float) rectHeight / (float) totalTime;
 
-        for(TimerSection section: sections) {
+        for (TimerSection section : sections) {
             //set the marker and name for the given index
-            sectionMarkers[sectionIndex] = ((float)section.getSectionTime()/(float)totalTime) * (float)rectHeight;
-            System.out.println("Setting Marker: "+sectionIndex+" to: "+sectionMarkers[sectionIndex]);
+            sectionMarkers[sectionIndex] = ((float) section.getSectionTime() / (float) totalTime) * (float) rectHeight;
+            //System.out.println("Setting Marker: " + sectionIndex + " to: " + sectionMarkers[sectionIndex]);
 
             sectionNames[sectionIndex] = section.getSectionName();
             sectionIndex++;
         }
-        
+
     }
 
     public int getRectHeight() {
@@ -92,15 +108,15 @@ public class TimerCanvas extends JComponent {
         int gridHeight = getHeight();
 
         Color fg3D = Color.lightGray;
-        
+
         // draw entire component white
 //        g.setColor(Color.white);
 //        g.fillRect(0, 0, gridWidth, gridHeight);
 
         int x = 3;
         int y = 7;
-        int rectWidth = gridWidth-3;
-        
+        int rectWidth = gridWidth - 3;
+
 
         // fill Rectangle2D.Double (red)
         g2.setPaint(Color.yellow);
@@ -117,7 +133,7 @@ public class TimerCanvas extends JComponent {
         // draw String
         g2.setPaint(Color.black);
         int currentMarker = 0;
-        for (int i=0; i<sectionMarkers.length; i++) {
+        for (int i = 0; i < sectionMarkers.length; i++) {
             currentMarker += sectionMarkers[i];
             g2.drawString(sectionNames[i], x, currentMarker);
             g2.drawLine(x, y + currentMarker, x + rectWidth, y + currentMarker);
@@ -132,4 +148,5 @@ public class TimerCanvas extends JComponent {
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
+
 }

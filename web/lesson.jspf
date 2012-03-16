@@ -226,10 +226,14 @@
             $( "#create-lesson-form" ).dialog( "open" );
         }
 
+        function compareFunction(a, b){
+            return a - b;
+        }
+        
         var loadSnapshots = function(selector, current) {
             $( "#" + selector ).html("");
             $( "#" + selector ).append(
-               "<label for=\"" + selector + "-select\">Snapshot</label>" +
+            "<label for=\"" + selector + "-select\">Select the snapshot</label>" +
                 "<select id=\"" + selector + "-select\"" +
                 "name=\"" + selector + "-select\">" +
                 "</select>");
@@ -238,6 +242,13 @@
                 if (!data) return;
 
                 var res = ensureArray(data.snapshots);
+                // Snapshots sorting added by Kaustubh.+
+                res.sort(function(a,b){
+                    var aName = a.name.toLowerCase();
+                    var bName = b.name.toLowerCase();
+                    return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));                
+                });
+                // Snapshots sorting added by Kaustubh.-
                 $.each(res, function(i, snapshot) {
                     var selected = "";
                     if (current == snapshot.id) {

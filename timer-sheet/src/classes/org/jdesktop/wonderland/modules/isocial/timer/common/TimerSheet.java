@@ -20,9 +20,11 @@ package org.jdesktop.wonderland.modules.isocial.timer.common;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.jdesktop.wonderland.modules.isocial.common.model.SheetDetails;
 import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialModel;
 
@@ -31,22 +33,20 @@ import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialMo
  * @author Jonathan Kaplan <jonathankap@wonderbuilders.com>
  */
 @ISocialModel
-@XmlRootElement(name="TimerSheet")
+@XmlRootElement(name = "TimerSheet")
 public class TimerSheet extends SheetDetails implements Serializable {
+
     private static final String TYPE_NAME = "Timer Sheet";
     private static final String TYPE_DESC = "Timer sheet with section names and times.";
-
-
-    private String name = "Unconfigured Sheet";
+    @XmlTransient
+    private String[] headings = {"Completed Minutes", "Remaining Minutes"};
+    private String name = "Timer Sheet";
 //    private String question = "Unconfigured Question";
     private boolean autoOpen = false;
 //    private String questionType = "Question Type";
     private boolean dockable = false;
-
     private boolean singleton = false;
-
     private String directions = "";
-
     private List<TimerSection> sections;
 
     public String getDirections() {
@@ -57,10 +57,10 @@ public class TimerSheet extends SheetDetails implements Serializable {
         this.directions = directions;
     }
 
-      public TimerSheet() {
-          //questions = new ArrayList<GenericQuestion>();
-          sections = new ArrayList<TimerSection>();
-      }
+    public TimerSheet() {
+        //questions = new ArrayList<GenericQuestion>();
+        sections = new ArrayList<TimerSection>();
+    }
 
     @Override
     public String getTypeName() {
@@ -93,6 +93,7 @@ public class TimerSheet extends SheetDetails implements Serializable {
     public boolean isDockable() {
         return dockable;
     }
+
     public void setDockable(boolean dockable) {
         this.dockable = dockable;
     }
@@ -115,15 +116,16 @@ public class TimerSheet extends SheetDetails implements Serializable {
 
     @Override
     public List<String> getResultHeadings() {
-        List<String> headings = new ArrayList<String>();
+        List<String> headingList = new ArrayList<String>();
+        headingList.addAll(Arrays.asList(headings));
 //        for(GenericQuestion question: questions ) {
 //            headings.add(question.getValue());
 //        }
-        return headings;
+        return headingList;
 
         //return Collections.singletonList(getName());
     }
-    
+
     @Override
     @XmlElement
     public String getEditURL() {

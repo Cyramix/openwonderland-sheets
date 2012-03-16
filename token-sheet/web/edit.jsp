@@ -77,6 +77,16 @@
                 $( "#save" ).button();
                 $( "#cancel" ).button();
             });
+            function validate(evt) {
+                var theEvent = evt || window.event;
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode( key );
+                var regex = /[0-9]|\./;
+                if( !regex.test(key) ) {
+                    theEvent.returnValue = false;
+                    if(theEvent.preventDefault) theEvent.preventDefault();
+                }
+            }
         </script>
     </head>
     <body>
@@ -105,7 +115,20 @@
                                    <c:if test="${details.dockable}">checked="checked"</c:if>/>
                         </div>
                     </div>
+                    <div class="divRow">
+                        <div class="divColumnMedium"><label for="maxStudents">Number of Students?</label></div>
+                        <div class="divColumnLarge"><input class="ui-widget-content ui-corner-all" size="30" type="text" name="maxStudents" value="${details.maxStudents}" onkeypress="validate(event)"/></div>
                 </div>
+                    <div class="divRow">
+                        <div class="divColumnMedium"><label for="maxLessonTokens">Max. Lesson Tokens / Student?</label></div>
+                        <div class="divColumnLarge"><input class="ui-widget-content ui-corner-all" size="30" type="text" name="maxLessonTokens" value="${details.maxLessonTokens}" onkeypress="validate(event)"/></div>
+                    </div>
+                    <div class="divRow">
+                        <div class="divColumnMedium"><label for="maxUnitTokens">Max. Unit Tokens / Class?</label></div>
+                        <div class="divColumnLarge"><input class="ui-widget-content ui-corner-all" size="30" type="text" name="maxUnitTokens" value="${details.maxUnitTokens}" onkeypress="validate(event)"/></div>
+                    </div>                    
+                </div>
+        </div>
                 <input id="publish" name="action" value="Publish" type="submit"/>
                 <input id="save" name="action" value="Save" type="submit"/>
                 <input id="cancel" name="action" value="Cancel" type="submit"/>

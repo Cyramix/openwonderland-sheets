@@ -33,29 +33,49 @@ import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialMo
 @XmlRootElement(name = "TimerResult")
 public class TimerResult extends ResultDetails {
 
-    private String finishedSectionName;
-    private String nextSectionName;
-//    private List<GenericAnswer> answers;
+    private int elapsedMins, remainingMins;
 
+    public int getElapsedMins() {
+        return elapsedMins;
+    }
+
+    public void setElapsedMins(int elapsedMins) {
+        this.elapsedMins = elapsedMins;
+    }
+
+    public int getRemainingMins() {
+        return remainingMins;
+    }
+
+    public void setRemainingMins(int remainingMins) {
+        this.remainingMins = remainingMins;
+    }
+    
     public TimerResult() {
 //        answers = new ArrayList<GenericAnswer>();
     }
-
-    public String getFinishedSectionName() {
-        return finishedSectionName;
-    }
-
-    public void setFinishedSectionName(String finishedSectionName) {
-        this.finishedSectionName = finishedSectionName;
-    }
-
-    public String getNextSectionName() {
-        return nextSectionName;
-    }
-
-    public void setNextSectionName(String nextSectionName) {
-        this.nextSectionName = nextSectionName;
-    }
+    
+//    private String finishedSectionName;
+//    private String nextSectionName;
+////    private List<GenericAnswer> answers;
+//
+//    
+//
+//    public String getFinishedSectionName() {
+//        return finishedSectionName;
+//    }
+//
+//    public void setFinishedSectionName(String finishedSectionName) {
+//        this.finishedSectionName = finishedSectionName;
+//    }
+//
+//    public String getNextSectionName() {
+//        return nextSectionName;
+//    }
+//
+//    public void setNextSectionName(String nextSectionName) {
+//        this.nextSectionName = nextSectionName;
+//    }
 
     
     // <editor-fold defaultstate="collapsed" desc="Legacy code from Sample Sheet project">
@@ -71,6 +91,8 @@ public class TimerResult extends ResultDetails {
     @Override
     public List<String> getResultValues(List<String> list, SheetDetails sd) {
         List<String> values = new ArrayList<String>();
+        values.add(String.valueOf(elapsedMins));
+        values.add(String.valueOf(remainingMins));
 //        for (GenericAnswer answer1 : answers) {
 //            values.add(answer1.getValue());
 //        }

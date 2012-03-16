@@ -44,6 +44,7 @@ public class TokenSheet extends SheetDetails implements Serializable {
     private boolean dockable = false;
     @XmlTransient
     private String[] headings = {"Tokens", "Passes", "Strikes"};
+    private int maxLessonTokens, maxUnitTokens, maxStudents;
 
     @Override
     public String getTypeName() {
@@ -92,5 +93,29 @@ public class TokenSheet extends SheetDetails implements Serializable {
     @XmlElement
     public String getEditURL() {
         return "isocial-token-sheet.war/edit";
+    }
+
+    public void setMaxLessonTokens(int maxLessonTokens) {
+        this.maxLessonTokens = maxLessonTokens;
+    }
+
+    public int getMaxLessonTokens() {
+        return maxLessonTokens;
+    }
+
+    public int getMaxUnitTokens() {
+        return maxUnitTokens;
+    }
+
+    public void setMaxUnitTokens(int maxUnitTokens) {
+        this.maxUnitTokens = maxUnitTokens;
+    }
+
+    public int getMaxStudents() {
+        return maxStudents;
+    }
+
+    public void setMaxStudents(int maxStudents) {
+        this.maxStudents = maxStudents;
     }
 }
