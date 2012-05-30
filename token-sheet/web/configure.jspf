@@ -1,0 +1,84 @@
+
+<script type="text/javascript">
+    $(function() { 
+    
+        $("#remove-tokens-button").button();
+        $("#add-tokens-button").button();
+        
+        $("#remove-tokens-button").click(function() {
+            
+            //get maximum tokens for a unit
+            var unitMax = getUnitMaxValue();
+            
+            //get maximum tokens for a student per lesson
+            var lessonMaxForOneStudent = getLessonMaxForStudent();
+            
+            //calculate new maximum
+            var newMax = unitMax - lessonMaxForOneStudent;
+            
+            //set new maximum
+            saveState(addPrefixToKey("tokens.possible.per.student.per.unit"), newMax);
+            
+            //refresh page
+            window.location.reload();
+            
+        });
+    
+    
+        $("#add-tokens-button").click(function(){
+            //get maximum tokens for a unit
+            var unitMax = parseInt(getUnitMaxValue());
+        
+            //get maximum tokens for a student per lesson
+            var lessonMaxForOneStudent = parseInt(getLessonMaxForStudent());
+        
+            //calculate new maximum
+            var newMax = unitMax + lessonMaxForOneStudent;
+        
+            //set new maximum
+            saveState(addPrefixToKey("tokens.possible.per.student.per.unit"), newMax);
+        
+            //refresh page
+            window.location.reload();
+        
+        });
+    });
+    
+    function getUnitMaxValue() {
+        var prop;
+        $.ajax({
+            type: 'GET',
+            url: COHORT_STATE_URL+"/"+addPrefixToKey("tokens.possible.per.student.per.unit"),
+            success: function(data) {
+                prop = data.details.value;
+            },
+            async: false,
+            dataType: 'json',
+            contentType: 'application/json'
+        });
+        
+        return prop;
+    }
+    
+    
+    function getLessonMaxForStudent() {
+        var prop;
+        $.ajax({
+            type: 'GET',
+            url: COHORT_STATE_URL+"/"+addPrefixToKey("tokens.possible.per.student.per.lesson"),
+            success: function(data) {
+                prop = data.details.value;
+            },
+            async: false,
+            dataType: 'json',
+            contentType: 'application/json'
+            
+        });
+        return prop;
+    }
+    
+</script>
+
+<hr />
+<button id="remove-tokens-button">Remove Tokens</button>
+<button id="add-tokens-button">Add Tokens</button>

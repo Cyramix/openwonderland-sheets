@@ -11,9 +11,17 @@
         <servlet-class>org.jdesktop.wonderland.modules.isocial.web.ISocialServletContainer</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>ConfigureServlet</servlet-name>
+        <servlet-class>org.jdesktop.wonderland.modules.isocial.web.ConfigureServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletAdaptor</servlet-name>
         <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigureServlet</servlet-name>
+        <url-pattern>/configure</url-pattern>
     </servlet-mapping>
     <security-constraint>
         <display-name>Require Login</display-name>

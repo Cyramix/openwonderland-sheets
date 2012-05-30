@@ -254,7 +254,7 @@ public class EditorServlet extends ISocialServletBase {
 
     private void doCancelAll(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-        response.sendRedirect("/isocial-sheets/isocial-sheets/lesson.jsp");
+        response.sendRedirect("/isocial-sheets/isocial-sheets/lessons.jsp");
     }
 
     private Sheet getSheet(HttpServletRequest request) {

@@ -37,7 +37,7 @@ public class TokenSystemContextListener implements ServletContextListener {
 
 
         ServletContext context = sce.getServletContext().getContext("/isocial-sheets/isocial-sheets");
-        tokenUnitProperties = new UnitPropertiesRegistration(unitProps, new ArrayList<String>());
+        tokenUnitProperties = new UnitPropertiesRegistration(unitProps, new ArrayList<String>(),"/configure.jspf", "/isocial-sheets/isocial-token-sheet.war");
         tokenCohortProperties = new CohortPropertiesRegistration(cohortProps, new ArrayList<String>());
 
         UnitPropertiesRegistration.register(tokenUnitProperties, context);

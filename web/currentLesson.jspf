@@ -49,11 +49,11 @@
         $.getJSON("resources/instances/current", function(data) {
             currentInstance = data;
 
-            $( "#current-unit" ).append( "<a href=\"./configureUnit.jsp\">"+data.unit.name+"</a>" );
+            $( "#current-unit" ).append( "<a href=\"./configure?action=unit\">"+data.unit.name+"</a>" );
             $( "#current-lesson" ).append( data.lesson.name );
 
             $.getJSON("resources/cohorts/" + data.cohortId, function(data) {
-                $( "#current-cohort" ).append( "<a href=\"./configureCohort.jsp\">"+data.name+"</a>" );
+                $( "#current-cohort" ).append( "<a href=\"./configure?action=cohort\">"+data.name+"</a>" );
             });
 
             $( "#current-date" ).append( new Date(Date.parse(data.created)).format() );

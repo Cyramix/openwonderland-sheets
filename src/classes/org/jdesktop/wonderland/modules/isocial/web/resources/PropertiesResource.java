@@ -36,6 +36,22 @@ public class PropertiesResource extends ISocialResourceBase {
     ServletContext context;
 
     @GET
+    @Path("/unit/urls")
+    @Produces({"application/json"})
+    public Response getUnitURLS() {
+        
+        List<String> urls = new ArrayList<String>();
+        for(UnitPropertiesRegistration upr: getUnitRegistry()) {
+            if(!upr.getUrl().equals(""))
+            urls.add(upr.getUrl());
+        }
+        
+        return Response.ok(new JSONArray(urls))
+                        .cacheControl(NO_CACHE)
+                        .build();
+    }
+    
+    @GET
     @Path("/testing")
     @Produces({"application/json"})
     public Response mapTest() {

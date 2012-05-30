@@ -216,5 +216,12 @@
         <input type="hidden" name="lessonid" id="lessonid" value="${lessonId}"/>
         <input type="hidden" name="sheetid" id="sheetid" value="${sheetId}"/>
 
+        
+        
+        <c:forEach var="script" items="${requestScope['UnitProperties']}">
+            <c:import url="${script.url}" context="${script.context}"/>
+        </c:forEach>
+        
+        
     </body>
 </html>

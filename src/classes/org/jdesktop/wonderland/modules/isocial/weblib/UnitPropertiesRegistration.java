@@ -22,6 +22,9 @@ public class UnitPropertiesRegistration {
     private ArrayList<String> propertyNames = null;
     private ArrayList<String> defaultValues = null;
     
+    private String url = "";
+    private String context = "";
+    
     public static void register(UnitPropertiesRegistration reg, ServletContext context) {
         List<UnitPropertiesRegistration> registry = getRegistry(context);
         registry.add(reg);
@@ -48,13 +51,26 @@ public class UnitPropertiesRegistration {
         return registry;
     }
     
-    public UnitPropertiesRegistration(List<String> keys, List<String> values) {
+    public UnitPropertiesRegistration(List<String> keys, List<String> values, String url, String context) {
         propertyNames = new ArrayList<String>();
         propertyNames.addAll(keys);
         
         defaultValues = new ArrayList<String>();
         defaultValues.addAll(values);
+        
+        this.url = url;
+        this.context = context;
     }
+
+    public String getContext() {
+        return context;
+    }
+
+    
+    public String getUrl() {
+        return url;
+    }
+    
     
     public List<String> getNames() {
         return this.propertyNames;
