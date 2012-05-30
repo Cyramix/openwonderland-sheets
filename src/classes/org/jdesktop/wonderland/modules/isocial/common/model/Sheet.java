@@ -34,6 +34,7 @@ import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialMo
 public class Sheet extends ISocialModelBase {
     private String unitId;
     private String lessonId;
+    private String groupId;
     private boolean published;
     private SheetDetails details;
 
@@ -49,8 +50,18 @@ public class Sheet extends ISocialModelBase {
     public Sheet(String unitId, String lessonId) {
         this.unitId = unitId;
         this.lessonId = lessonId;
+        this.groupId = " ";
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    
     public String getUnitId() {
         return unitId;
     }

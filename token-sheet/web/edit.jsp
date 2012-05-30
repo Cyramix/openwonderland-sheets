@@ -72,6 +72,10 @@
         </style>
 
         <script type="text/javascript">
+            <c:set var="unitId" value="${param['unitId']}"/>
+            <c:set var="lessonId" value="${param['lessonId']}"/>
+            <c:set var="sheetId" value="${param['sheetId']}"/>
+            <c:set var="groupId" value="${param['groupId']}"/>    
             $(function() {
                 $( "#publish" ).button().focus();
                 $( "#save" ).button();
@@ -132,6 +136,13 @@
                 <input id="publish" name="action" value="Publish" type="submit"/>
                 <input id="save" name="action" value="Save" type="submit"/>
                 <input id="cancel" name="action" value="Cancel" type="submit"/>
+                
+<!-- HIDDEN INPUTS TO BE PASSED TO SERVLET -->
+                <input type="hidden" name="unitId" id="unitid" value="${unitId}"/>
+                <input type="hidden" name="lessonId" id="lessonid" value="${lessonId}"/>
+                <input type="hidden" name="groupId" id="groupid" value="${groupId}"/>
+                <input type="hidden" name="sheetId" id="sheetid" value="${sheetId}"/>
+                
             </form>
         </div>
     </body>

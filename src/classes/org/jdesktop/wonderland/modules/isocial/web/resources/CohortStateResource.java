@@ -1,20 +1,20 @@
 /**
- * iSocial Project
- * http://isocial.missouri.edu
+ * iSocial Project http://isocial.missouri.edu
  *
- * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights
+ * Reserved
  *
- * Redistributions in source code form must reproduce the above
- * copyright and this condition.
+ * Redistributions in source code form must reproduce the above copyright and
+ * this condition.
  *
- * The contents of this file are subject to the GNU General Public
- * License, Version 2 (the "License"); you may not use this file
- * except in compliance with the License. A copy of the License is
- * available at http://www.opensource.org/licenses/gpl-license.php.
+ * The contents of this file are subject to the GNU General Public License,
+ * Version 2 (the "License"); you may not use this file except in compliance
+ * with the License. A copy of the License is available at
+ * http://www.opensource.org/licenses/gpl-license.php.
  *
- * The iSocial project designates this particular file as
- * subject to the "Classpath" exception as provided by the iSocial
- * project in the License file that accompanied this code.
+ * The iSocial project designates this particular file as subject to the
+ * "Classpath" exception as provided by the iSocial project in the License file
+ * that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.web.resources;
 
@@ -33,14 +33,32 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.jdesktop.wonderland.modules.isocial.common.model.CohortState;
 import org.jdesktop.wonderland.modules.isocial.common.model.Instance;
+import org.jdesktop.wonderland.modules.isocial.common.model.state.CSBoolean;
+import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
 
 /**
  * Resource for cohort state
+ *
  * @author Jonathan Kaplan <jonathankap@wonderbuilders.com>
  */
 @Path("/cohortState")
 public class CohortStateResource extends ISocialResourceBase {
-    @Context private UriInfo uriInfo;
+
+    @Context
+    private UriInfo uriInfo;
+
+    @GET
+    @Path("testing")
+    @Produces({"application/json"})
+    public Response testCohortStateDetails() {
+        CohortState state = new CohortState();
+        state.setCohortId("just a test");
+        state.setKey("foo");
+        state.setDetails(CSBoolean.valueOf(Boolean.TRUE));
+
+
+        return Response.ok(state).cacheControl(NO_CACHE).build();
+    }
 
     @GET
     @Path("{key}")
@@ -52,8 +70,28 @@ public class CohortStateResource extends ISocialResourceBase {
             return Response.status(Response.Status.NOT_FOUND).
                     entity("No state for " + key).build();
         }
-        
+
         return Response.ok(state).cacheControl(NO_CACHE).build();
+    }
+
+    @POST
+    @Path("{key}/{value}")
+    @Produces({"application/xml", "application/json"})
+    public Response setState(@PathParam("key") String key, @PathParam("value") String value) {
+
+        Instance current = getCurrentInstance();
+        CohortState state = new CohortState();
+        state.setCohortId(current.getCohortId());
+        state.setKey(key);
+        state.setDetails(CSString.valueOf(value));
+        
+        CohortState added = dao().setCohortState(state);
+        URI uri = uriInfo.getBaseUriBuilder().path(CohortStateResource.class)
+                .path(added.getKey()).build();
+        
+        return Response.created(uri).entity(added).build();
+        
+
     }
 
     @POST
@@ -64,7 +102,7 @@ public class CohortStateResource extends ISocialResourceBase {
         // set the current cohort
         Instance cur = getCurrentInstance();
         state.setCohortId(cur.getCohortId());
-        
+
         if (!state.getKey().equals(key)) {
             return Response.status(Response.Status.BAD_REQUEST).
                     entity("Key mismatch: " + state.getKey() + " != " + key).
@@ -73,27 +111,26 @@ public class CohortStateResource extends ISocialResourceBase {
 
         CohortState added = dao().setCohortState(state);
         URI uri = uriInfo.getBaseUriBuilder().path(CohortStateResource.class).
-                                              path(added.getKey()).build();
+                path(added.getKey()).build();
         return Response.created(uri).entity(added).build();
     }
-    
+
     @DELETE
     @Path("{key}")
     public Response deleteResult(@PathParam("key") String key) {
         Instance cur = getCurrentInstance();
-        
+
         dao().removeResult(cur.getCohortId(), key);
         return Response.ok().build();
     }
-    
+
     private Instance getCurrentInstance() {
         Instance out = dao().getCurrentInstance();
         if (out == null) {
-            throw new WebApplicationException(Response.
-                    status(Response.Status.INTERNAL_SERVER_ERROR).
+            throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR).
                     entity("No current instance").build());
         }
-        
+
         return out;
     }
 }

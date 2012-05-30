@@ -1,29 +1,26 @@
 /**
- * iSocial Project
- * http://isocial.missouri.edu
+ * iSocial Project http://isocial.missouri.edu
  *
- * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights
+ * Reserved
  *
- * Redistributions in source code form must reproduce the above
- * copyright and this condition.
+ * Redistributions in source code form must reproduce the above copyright and
+ * this condition.
  *
- * The contents of this file are subject to the GNU General Public
- * License, Version 2 (the "License"); you may not use this file
- * except in compliance with the License. A copy of the License is
- * available at http://www.opensource.org/licenses/gpl-license.php.
+ * The contents of this file are subject to the GNU General Public License,
+ * Version 2 (the "License"); you may not use this file except in compliance
+ * with the License. A copy of the License is available at
+ * http://www.opensource.org/licenses/gpl-license.php.
  *
- * The iSocial project designates this particular file as
- * subject to the "Classpath" exception as provided by the iSocial
- * project in the License file that accompanied this code.
+ * The iSocial project designates this particular file as subject to the
+ * "Classpath" exception as provided by the iSocial project in the License file
+ * that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.web.resources;
 
 import org.jdesktop.wonderland.modules.isocial.weblib.resources.ISocialResourceBase;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
@@ -42,6 +39,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.jdesktop.wonderland.common.utils.ScannedClassLoader;
 import org.jdesktop.wonderland.modules.isocial.common.model.ISocialModelCollection;
+import org.jdesktop.wonderland.modules.isocial.common.model.Lesson;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
 import org.jdesktop.wonderland.modules.isocial.common.model.SheetDetails;
 import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialModel;
@@ -49,21 +47,22 @@ import org.jdesktop.wonderland.modules.isocial.weblib.ISocialWebUtils;
 
 /**
  * Resource for managing lessons, units and sheets
+ *
  * @author Jonathan Kaplan <jonathankap@wonderbuilders.com>
  */
 @Path("/sheets")
 public class SheetsResource extends ISocialResourceBase {
+
     private static final Logger LOGGER =
             Logger.getLogger(SheetsResource.class.getName());
-
-    @Context private UriInfo uriInfo;
+    @Context
+    private UriInfo uriInfo;
 
     @GET
     @Path("{unitId}/{lessonId}")
     @Produces({"application/xml", "application/json"})
     public Response getSheets(@PathParam("unitId") String unitId,
-                              @PathParam("lessonId") String lessonId) 
-    {
+            @PathParam("lessonId") String lessonId) {
         Collection<Sheet> sheets = dao().getSheets(unitId, lessonId);
         return Response.ok(new ISocialModelCollection<Sheet>(sheets)).
                 cacheControl(NO_CACHE).build();
@@ -74,9 +73,8 @@ public class SheetsResource extends ISocialResourceBase {
     @Consumes({"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public Response newSheet(@PathParam("unitId") String unitId,
-                             @PathParam("lessonId") String lessonId,
-                             Sheet sheet)
-    {
+            @PathParam("lessonId") String lessonId,
+            Sheet sheet) {
         // set the lessonID and unitID
         sheet.setUnitId(unitId);
         sheet.setLessonId(lessonId);
@@ -94,9 +92,8 @@ public class SheetsResource extends ISocialResourceBase {
     @Path("{unitId}/{lessonId}/{sheetId}")
     @Produces({"application/xml", "application/json"})
     public Response getSheet(@PathParam("unitId") String unitId,
-                             @PathParam("lessonId") String lessonId,
-                             @PathParam("sheetId") String sheetId)
-    {
+            @PathParam("lessonId") String lessonId,
+            @PathParam("sheetId") String sheetId) {
         Sheet res = dao().getSheet(unitId, lessonId, sheetId);
         return Response.ok(res).cacheControl(NO_CACHE).build();
     }
@@ -106,28 +103,27 @@ public class SheetsResource extends ISocialResourceBase {
     @Consumes({"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public Response updateSheet(@PathParam("unitId") final String unitId,
-                                @PathParam("lessonId") final String lessonId,
-                                @PathParam("sheetId") final String sheetId,
-                                Sheet sheet)
-    {
+            @PathParam("lessonId") final String lessonId,
+            @PathParam("sheetId") final String sheetId,
+            Sheet sheet) {
         if (!unitId.equals(sheet.getUnitId())) {
             return Response.status(Response.Status.BAD_REQUEST).
-                    entity("Id " + unitId + " does not match unit id " +
-                           sheet.getUnitId()).
+                    entity("Id " + unitId + " does not match unit id "
+                    + sheet.getUnitId()).
                     build();
         }
 
         if (!lessonId.equals(sheet.getLessonId())) {
             return Response.status(Response.Status.BAD_REQUEST).
-                    entity("Id " + lessonId + " does not match lesson id " +
-                           sheet.getLessonId()).
+                    entity("Id " + lessonId + " does not match lesson id "
+                    + sheet.getLessonId()).
                     build();
         }
 
         if (!sheetId.equals(sheet.getId())) {
             return Response.status(Response.Status.BAD_REQUEST).
-                    entity("Id " + sheetId + " does not match sheet id " +
-                           sheet.getId()).
+                    entity("Id " + sheetId + " does not match sheet id "
+                    + sheet.getId()).
                     build();
         }
 
@@ -139,14 +135,14 @@ public class SheetsResource extends ISocialResourceBase {
     @Path("{unitId}/{lessonId}/{sheetId}/copy")
     @Produces({"application/xml", "application/json"})
     public Response copySheet(@PathParam("unitId") final String unitId,
-                              @PathParam("lessonId") final String lessonId,
-                              @PathParam("sheetId") final String sheetId)
-    {
+            @PathParam("lessonId") final String lessonId,
+            @PathParam("sheetId") final String sheetId) {
         try {
             return dao().runTransaction(new Callable<Response>() {
+
                 public Response call() throws Exception {
                     return copySheet(unitId, lessonId, sheetId,
-                                     unitId, lessonId);
+                            unitId, lessonId);
                 }
             });
         } catch (Exception ex) {
@@ -158,11 +154,10 @@ public class SheetsResource extends ISocialResourceBase {
     @Path("{unitId}/{lessonId}/{sheetId}/move")
     @Produces({"application/xml", "application/json"})
     public Response moveSheet(@PathParam("unitId") final String unitId,
-                              @PathParam("lessonId") final String lessonId,
-                              @PathParam("sheetId") final String sheetId,
-                              @QueryParam("toUnitId") final String toUnitId,
-                              @QueryParam("toLessonId") final String toLessonId)
-    {
+            @PathParam("lessonId") final String lessonId,
+            @PathParam("sheetId") final String sheetId,
+            @QueryParam("toUnitId") final String toUnitId,
+            @QueryParam("toLessonId") final String toLessonId) {
         if (toUnitId == null) {
             return Response.status(Response.Status.BAD_REQUEST).
                     entity("No toUnitId specified").build();
@@ -175,9 +170,10 @@ public class SheetsResource extends ISocialResourceBase {
 
         try {
             return dao().runTransaction(new Callable<Response>() {
+
                 public Response call() throws Exception {
                     Response resp = copySheet(unitId, lessonId, sheetId,
-                                              toUnitId, toLessonId);
+                            toUnitId, toLessonId);
                     if (resp.getStatus() == Response.Status.CREATED.getStatusCode()) {
                         // the new copy was created successfully -- remove
                         // the old copy
@@ -194,11 +190,32 @@ public class SheetsResource extends ISocialResourceBase {
     @DELETE
     @Path("{unitId}/{lessonId}/{sheetId}")
     public Response deleteSheet(@PathParam("unitId") String unitId,
-                                @PathParam("lessonId") String lessonId,
-                                @PathParam("sheetId") String sheetId)
-    {
+            @PathParam("lessonId") String lessonId,
+            @PathParam("sheetId") String sheetId) {
         dao().removeSheet(unitId, lessonId, sheetId);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("{unitId}/group/{groupId}")
+    public Response getSheetsByGroup(@PathParam("unitId") String unitId,
+            @PathParam("groupId") String groupId) {
+
+        Set<Sheet> sheets = new LinkedHashSet<Sheet>();
+        //for every lesson in the unit
+        for(Lesson lesson : dao().getLessons(unitId)) {
+           //...and for every sheet in this lesson
+            for(Sheet sheet : dao().getSheets(unitId, lesson.getId())) {
+                //check the sheet to see if it matches the given groupId
+                if(sheet.getGroupId().equals(groupId)) {
+                    //add sheet to set
+                    sheets.add(sheet);
+                }
+            }
+        }
+        
+        return Response.ok(new ISocialModelCollection<Sheet>(sheets)).
+                cacheControl(NO_CACHE).build();
     }
 
     @GET
@@ -209,22 +226,22 @@ public class SheetsResource extends ISocialResourceBase {
 
         ScannedClassLoader scl = ISocialWebUtils.getScannedClassLoader();
         for (Iterator<SheetDetails> sci = scl.getAll(XmlRootElement.class, SheetDetails.class);
-             sci.hasNext();)
-        {
+                sci.hasNext();) {
             SheetDetails sc = sci.next();
             Class clazz = sc.getClass();
             XmlRootElement e = (XmlRootElement) clazz.getAnnotation(XmlRootElement.class);
 
             SheetType type = new SheetType(sc.getTypeName(), e.name(),
-                                           sc.getTypeDescription());
+                    sc.getTypeDescription());
             types.getSheetTypes().add(type);
         }
 
         return Response.ok(types).cacheControl(NO_CACHE).build();
     }
-    
+
     /**
      * Create a URI for a sheet
+     *
      * @param sheet the sheet to get a URI for
      */
     private URI uri(Sheet sheet) {
@@ -235,6 +252,7 @@ public class SheetsResource extends ISocialResourceBase {
 
     /**
      * Copy a sheet, and optionally move it to a new unit and lesson
+     *
      * @param unitId the original unit
      * @param lessonId the original lesson
      * @param sheetId the original sheet
@@ -243,8 +261,7 @@ public class SheetsResource extends ISocialResourceBase {
      * @return a response indicating whether the operation succeeded
      */
     private Response copySheet(String unitId, String lessonId, String sheetId,
-                               String toUnitId, String toLessonId)
-    {
+            String toUnitId, String toLessonId) {
         Sheet orig = dao().getSheet(unitId, lessonId, sheetId);
         if (orig == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -259,9 +276,10 @@ public class SheetsResource extends ISocialResourceBase {
         return Response.created(uri(copy)).entity(copy).build();
     }
 
-    @XmlRootElement(name="sheet-types")
+    @XmlRootElement(name = "sheet-types")
     @ISocialModel
     public static class SheetTypes {
+
         private final List<SheetType> types = new ArrayList<SheetType>();
 
         @XmlElement
@@ -270,14 +288,17 @@ public class SheetsResource extends ISocialResourceBase {
         }
     }
 
-    @XmlRootElement(name="sheet-type")
+    @XmlRootElement(name = "sheet-type")
     @ISocialModel
     public static class SheetType {
+
         private String name;
         private String type;
         private String description;
 
-        public SheetType() {}
+        public SheetType() {
+        }
+
         public SheetType(String name, String type, String description) {
             this.name = name;
             this.type = type;

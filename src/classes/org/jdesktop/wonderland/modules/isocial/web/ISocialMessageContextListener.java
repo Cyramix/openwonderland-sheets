@@ -71,7 +71,7 @@ public class ISocialMessageContextListener extends ISocialContextListener {
                 sce.getServletContext().getAttribute(ISocialWebUtils.DAO_KEY);
             dao.removeDAOListener(adapter);
         }
-
+        
         super.contextDestroyed(sce);
     }
 

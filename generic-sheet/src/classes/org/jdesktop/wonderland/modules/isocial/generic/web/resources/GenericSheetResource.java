@@ -148,7 +148,7 @@ public class GenericSheetResource extends ISocialResourceBase {
 
                 sheet.setPublished(publish);
                 dao().updateSheet(sheet);
-
+                                
             }
         }
     }

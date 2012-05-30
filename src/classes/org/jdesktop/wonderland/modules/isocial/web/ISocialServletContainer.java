@@ -18,9 +18,12 @@
  */
 package org.jdesktop.wonderland.modules.isocial.web;
 
+import org.jdesktop.wonderland.modules.isocial.weblib.UnitPropertiesRegistration;
 import com.sun.enterprise.security.web.integration.WebPrincipal;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.security.auth.Subject;
 import javax.servlet.ServletContext;
@@ -73,6 +76,9 @@ public class ISocialServletContainer extends ServletContainer
                 return false;
             }
         };
+        
+        List<UnitPropertiesRegistration> unitPropertiesRegistry = new ArrayList<UnitPropertiesRegistration>();
+        
 
         // register with the UI
         AdminRegistration lr = new AdminRegistration("iSocial Sheets",
@@ -80,6 +86,8 @@ public class ISocialServletContainer extends ServletContainer
         lr.setFilter(adminOrGuideFilter);
         AdminRegistration.register(lr, context);
         context.setAttribute(LESSON_REG_KEY, lr);
+//        context.setAttribute(UnitPropertiesRegistration.UNIT_PROP_REGISTRY_PROP,
+//                            unitPropertiesRegistry);
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

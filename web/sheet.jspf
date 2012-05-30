@@ -51,8 +51,8 @@
             sheets[id] = sheet;
 
             var actions = [["edit", "Edit"],
-                           ["copy", "Copy"],
-                           ["move", "Move"]];
+                ["copy", "Copy"],
+                ["move", "Move"]];
             var status;
             if (sheet.published == "true") {
                 actions.push(["unpublish", "Unpublish"]);
@@ -143,8 +143,8 @@
                         $.ajax({
                             type: 'POST',
                             url: "resources/sheets/" + unitId + "/" +
-                                 lessonId + "/" + sheetId + "/move?toUnitId=" +
-                                 toUnitId + "&toLessonId=" + toLessonId,
+                                lessonId + "/" + sheetId + "/move?toUnitId=" +
+                                toUnitId + "&toLessonId=" + toLessonId,
                             success: function(data) {
                                 $( "#move-sheet-form" ).dialog( "close" );
                                 $( "#" + toUnitId ).expand();
@@ -202,21 +202,40 @@
 
                         var sheet = new Object();
                         sheet.unitId = unitId;
+                        
                         sheet.lessonId = lessonId;
                         sheet[type] = new Array();
+                        
+                        if(lessonId == "all") {
+                            //get all lessons from resource
+                            sheet.groupId = guidGenerator();
+                            $.ajax({
+                                type: 'GET',
+                                url: "resources/lessons/"+unitId,
+                                dataType: 'json',
+                                contentType: "application/json",
+                                success: function(data) {
+                                    var url = processLessons(unitId, ensureArray(data.lesson), sheet);
+                                    
+                                    editAll(sheet, url);
+                                }
+                            });
+                            //for each lesson, create a new sheet with that
+                            //lesson's lessonId similar to below:
+                        } else {
                             
-                        $.ajax({
-                            type: 'POST',
-                            url: "resources/sheets/" + unitId + "/" + lessonId+ "/new",
-                            data: JSON.stringify(sheet),
-                            dataType: 'json',
-                            success: function(data) {
-                                $( "#create-sheet-form" ).dialog( "close" );
-                                edit(data);
-                            },
-                            contentType: "application/json"
-                        });
-
+                            $.ajax({
+                                type: 'POST',
+                                url: "resources/sheets/" + unitId + "/" + lessonId+ "/new",
+                                data: JSON.stringify(sheet),
+                                dataType: 'json',
+                                success: function(data) {
+                                    $( "#create-sheet-form" ).dialog( "close" );
+                                    edit(data);
+                                },
+                                contentType: "application/json"
+                            });
+                        }
                     },
                     Cancel: function() {
                         $( this ).dialog( "close" );
@@ -224,12 +243,64 @@
                 }
             });
         }
-
+        
+        function processLessons(unitId, lessons, sheet) {
+            //            for(var lesson in lessons) {
+            var sheetURL = "";
+            $.each(lessons, function(i, lesson) {
+                //                alert(lesson.id);
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    url: "resources/sheets/"+unitId+"/"+lesson.id+"/new",
+                    data: JSON.stringify(sheet),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function(data) {
+                        $("#create-sheet-form").dialog("close");
+                        sheetURL = data.editURL;
+                    }
+                    
+                });
+            });
+            
+            return sheetURL;
+            
+//            alert("TODO: finish editAll function!");
+        }
+        
+        function editAll(sheet, url) {
+        
+            var finalURL = "../"+url+
+                "?unitId="+sheet.unitId+
+                "&lessonId=all"+
+                "&groupId="+sheet.groupId+
+                "&sheetId="+sheet.id;
+        
+        
+//            alert("URL: "+url+
+//                 "\nunitId: "+sheet.unitId+
+//                 "\nlessonId: all"+
+//                 "\ngroupId: "+sheet.groupId+
+//                 "\nsheetId: "+sheet.id);
+        
+//            alert(finalURL);
+        
+        
+            window.location.href=finalURL;
+        }
+        
 
         this.showCreateDialog = function(unit, lesson) {
             $( "#create-sheet-unit-id").val(unit.id);
             $( "#create-sheet-lesson-id").val(lesson.id);
             $( "#create-sheet-form" ).dialog( "open" );
+        }
+        
+        this.showCreateForAllDialog = function(unit) {
+            $("#create-sheet-unit-id").val(unit.id);
+            $("#create-sheet-lesson-id").val("all");
+            $("#create-sheet-form").dialog("open");
         }
 
         var showDeleteDialog = function(unit, lesson, sheet) {
@@ -250,7 +321,7 @@
             $.ajax({
                 type: 'POST',
                 url: "resources/sheets/" + unit.id + "/" + lesson.id +
-                     "/" + sheet.id + "/copy",
+                    "/" + sheet.id + "/copy",
                 success: function(data) {
                     $( "#" + unit.id ).expand();
                     $( "#" + unit.id + "-" + lesson.id ).expand();
@@ -346,6 +417,15 @@
         createDialogs();
     }
 </script>
+<script>
+    function guidGenerator() {
+        var S4 = function() {
+            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        };
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+                                
+</script>
 
 <div id="create-sheet-form" title="Create new sheet">
     <form action="#">
@@ -354,8 +434,8 @@
             <select name="create-sheet-type" id="create-sheet-type"></select>
 
             <div id="create-sheet-desc-div" style="padding-top: 15px;">
-            Description
-            <div class="ui-widget ui-widget-content ui-corner-all" id="create-sheet-description" style="padding: 5px;"></div>
+                Description
+                <div class="ui-widget ui-widget-content ui-corner-all" id="create-sheet-description" style="padding: 5px;"></div>
             </div>
 
             <input type="hidden" name="create-sheet-unit-id" id="create-sheet-unit-id">

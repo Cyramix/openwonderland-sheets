@@ -18,13 +18,13 @@
  */
 package org.jdesktop.wonderland.modules.isocial.weblib.servlet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import org.jdesktop.wonderland.modules.isocial.weblib.ISocialDAOFactory;
-import org.jdesktop.wonderland.modules.isocial.weblib.ISocialWebConnectionFactory;
-import org.jdesktop.wonderland.modules.isocial.weblib.ISocialWebUtils;
+import org.jdesktop.wonderland.modules.isocial.weblib.*;
 
 /**
  * Jersey servlet context that connects the iSocial web connection
@@ -39,6 +39,17 @@ public class ISocialContextListener implements ServletContextListener {
 
         ISocialWebConnectionFactory.registerContext(context);
         context.setAttribute(ISocialWebUtils.DAO_KEY, ISocialDAOFactory.getInstance());
+        
+        List<UnitPropertiesRegistration> unitRegistry = new ArrayList<UnitPropertiesRegistration>();
+        List<CohortPropertiesRegistration> cohortRegistry = new ArrayList<CohortPropertiesRegistration>();
+        
+        context.setAttribute(UnitPropertiesRegistration.UNIT_PROP_REGISTRY, unitRegistry);
+        context.setAttribute(CohortPropertiesRegistration.COHORT_PROP_REGISTRY, cohortRegistry);
+//        LOGGER.warning("SETTING UNIT REGISTRY TO CONTEXT: "+context.getContextPath());
+        
+        
+        
+        
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -46,5 +57,7 @@ public class ISocialContextListener implements ServletContextListener {
 
         ISocialWebConnectionFactory.unregisterContext(context);
         context.removeAttribute(ISocialWebUtils.DAO_KEY);
+        context.removeAttribute(UnitPropertiesRegistration.UNIT_PROP_REGISTRY);
+        context.removeAttribute(CohortPropertiesRegistration.COHORT_PROP_REGISTRY);
     }
 }

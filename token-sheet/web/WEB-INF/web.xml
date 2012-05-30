@@ -3,6 +3,9 @@
     <listener>
         <listener-class>org.jdesktop.wonderland.modules.isocial.weblib.servlet.ISocialContextListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>org.jdesktop.wonderland.modules.isocial.tokensheet.web.TokenSystemContextListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>EditorServlet</servlet-name>
         <servlet-class>org.jdesktop.wonderland.modules.isocial.tokensheet.web.EditorServlet</servlet-class>
