@@ -52,6 +52,7 @@ import org.jdesktop.wonderland.modules.isocial.client.ISocialConnection.ISocialC
 import org.jdesktop.wonderland.modules.isocial.client.view.DockableSheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
+import org.jdesktop.wonderland.modules.isocial.client.view.ViewListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
 import org.jdesktop.wonderland.modules.isocial.common.ISocialStateUtils;
 import org.jdesktop.wonderland.modules.isocial.common.model.Cohort;
@@ -88,6 +89,7 @@ public enum ISocialManager {
     private final Map<String, Result> currentResults =
             new LinkedHashMap<String, Result>();
     private SheetManager sheetManager;
+    private List<ViewListener> viewListeners = new ArrayList<ViewListener>();
 
     /**
      * Initialize the iSocialManager with the correct session a
@@ -330,8 +332,7 @@ public enum ISocialManager {
      * Submit a new result
      */
     public Result submitResult(String sheetId, ResultDetails details)
-            throws IOException 
-    {
+            throws IOException {
         return submitResult(sheetId, details, null);
     }
     
@@ -340,8 +341,7 @@ public enum ISocialManager {
      */
     public Result submitResult(String sheetId, ResultDetails details,
                                ResultMetadata metadata)
-            throws IOException
-    {   
+            throws IOException {
         Instance i = getCurrentInstance();
         if (i == null) {
             throw new IllegalStateException("No current instance");
@@ -369,8 +369,7 @@ public enum ISocialManager {
      */
     public Result submitResultAs(String creator, String sheetId,
                                  ResultDetails details)
-            throws IOException 
-    {
+            throws IOException {
         return submitResultAs(creator, sheetId, details, null);
     }
     
@@ -385,8 +384,7 @@ public enum ISocialManager {
      */
     public Result submitResultAs(String creator, String sheetId,
                                  ResultDetails details, ResultMetadata metadata)
-            throws IOException 
-    {
+            throws IOException {
         Instance i = getCurrentInstance();
         if (i == null) {
             throw new IllegalStateException("No current instance");
@@ -409,8 +407,7 @@ public enum ISocialManager {
      * Update a result
      */
     public Result updateResult(String resultId, ResultDetails details)
-            throws IOException 
-    {
+            throws IOException {
         return updateResult(resultId, details, null);
     }
     
@@ -423,8 +420,7 @@ public enum ISocialManager {
      */
     public Result updateResult(String resultId, ResultDetails details,
                                ResultMetadata metadata)
-            throws IOException
-    {
+            throws IOException {
         Instance i = getCurrentInstance();
         if (i == null) {
             throw new IllegalStateException("No current instance");
@@ -770,6 +766,18 @@ public enum ISocialManager {
         // if we get here, a role was specified but didn't match our role
         return false;
     }
+    
+    public void addViewListener(ViewListener listener) {
+        synchronized(viewListeners) {
+            viewListeners.add(listener);
+        }
+    }
+    
+    public void removeViewListener(ViewListener listener) {
+        synchronized(viewListeners) {
+            viewListeners.remove(listener);
+        }
+    }
 
     class ISocialConnectionListenerImpl implements ISocialConnectionListener {
 
@@ -851,9 +859,8 @@ public enum ISocialManager {
             component.setVisible(false);
             
             // only update location if it is not set by the component
-            if (component.getPreferredLocation() == null ||
-                component.getPreferredLocation() == Layout.NONE)
-            {
+            if (component.getPreferredLocation() == null 
+                || component.getPreferredLocation() == Layout.NONE) {
                 component.setPreferredLocation(Layout.NORTHEAST);
             }
             
@@ -899,6 +906,9 @@ public enum ISocialManager {
                 DockableSheetView dockSheetView = (DockableSheetView) view;
                 if (dockSheetView.isDockable()) {
 //                    DockManager.getInstance().register(component);
+                    for(ViewListener listener: viewListeners) {
+                        listener.viewOpened(component);
+                    }
                 }
             }
         }
@@ -952,4 +962,6 @@ public enum ISocialManager {
             setSelected(false);
         }
     }
+    
+    
 }

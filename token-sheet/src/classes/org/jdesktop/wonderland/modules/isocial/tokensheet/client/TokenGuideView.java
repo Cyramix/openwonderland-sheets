@@ -173,7 +173,7 @@ public class TokenGuideView extends javax.swing.JPanel
     public void resultAdded(final Result result) {
         if (result.getDetails() instanceof TokenResult) {
             TokenResult tResult = (TokenResult) result.getDetails();
-            if (tResult.getType() == ResultType.TOKEN_INC) {
+            if (tResult.getType() == ResultType.TOKEN_INCREMENT) {
                 TokenSoundPlayer.getInstance().playTokenSound();
             }
         }
@@ -195,7 +195,7 @@ public class TokenGuideView extends javax.swing.JPanel
     public void resultUpdated(final Result result) {
         if (result.getDetails() instanceof TokenResult) {
             TokenResult tResult = (TokenResult) result.getDetails();
-            if (tResult.getType() == ResultType.TOKEN_INC) {
+            if (tResult.getType() == ResultType.TOKEN_INCREMENT) {
                 TokenSoundPlayer.getInstance().playTokenSound();
             }
         }

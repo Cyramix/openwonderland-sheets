@@ -175,14 +175,14 @@ public class EditorServlet extends ISocialServletBase {
             String dockable = request.getParameter("dockable");
             ((TokenSheet) sheet.getDetails()).setDockable(Boolean.parseBoolean(dockable));
 
-            String maxStudents = request.getParameter("maxStudents");
-            ((TokenSheet) sheet.getDetails()).setMaxStudents(Integer.parseInt(maxStudents));
-
-            String maxLessonTokens = request.getParameter("maxLessonTokens");
-            ((TokenSheet) sheet.getDetails()).setMaxLessonTokens(Integer.parseInt(maxLessonTokens));
-
-            String maxUnitTokens = request.getParameter("maxUnitTokens");
-            ((TokenSheet) sheet.getDetails()).setMaxUnitTokens(Integer.parseInt(maxUnitTokens));
+//            String maxStudents = request.getParameter("maxStudents");
+//            ((TokenSheet) sheet.getDetails()).setMaxStudents(Integer.parseInt(maxStudents));
+//
+//            String maxLessonTokens = request.getParameter("maxLessonTokens");
+//            ((TokenSheet) sheet.getDetails()).setMaxLessonTokens(Integer.parseInt(maxLessonTokens));
+//
+//            String maxUnitTokens = request.getParameter("maxUnitTokens");
+//            ((TokenSheet) sheet.getDetails()).setMaxUnitTokens(Integer.parseInt(maxUnitTokens));
         } else {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
@@ -215,14 +215,14 @@ public class EditorServlet extends ISocialServletBase {
                 String dockable = request.getParameter("dockable");
                 ((TokenSheet) sheet.getDetails()).setDockable(Boolean.parseBoolean(dockable));
 
-                String maxStudents = request.getParameter("maxStudents");
-                ((TokenSheet) sheet.getDetails()).setMaxStudents(Integer.parseInt(maxStudents));
-
-                String maxLessonTokens = request.getParameter("maxLessonTokens");
-                ((TokenSheet) sheet.getDetails()).setMaxLessonTokens(Integer.parseInt(maxLessonTokens));
-
-                String maxUnitTokens = request.getParameter("maxUnitTokens");
-                ((TokenSheet) sheet.getDetails()).setMaxUnitTokens(Integer.parseInt(maxUnitTokens));
+//                String maxStudents = request.getParameter("maxStudents");
+//                ((TokenSheet) sheet.getDetails()).setMaxStudents(Integer.parseInt(maxStudents));
+//
+//                String maxLessonTokens = request.getParameter("maxLessonTokens");
+//                ((TokenSheet) sheet.getDetails()).setMaxLessonTokens(Integer.parseInt(maxLessonTokens));
+//
+//                String maxUnitTokens = request.getParameter("maxUnitTokens");
+//                ((TokenSheet) sheet.getDetails()).setMaxUnitTokens(Integer.parseInt(maxUnitTokens));
             } else {
                 continue;
             }

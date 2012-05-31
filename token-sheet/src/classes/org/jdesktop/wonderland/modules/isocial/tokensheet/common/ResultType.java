@@ -24,5 +24,10 @@ package org.jdesktop.wonderland.modules.isocial.tokensheet.common;
  */
 public enum ResultType {
 
-    TOKEN_INC, TOKEN_DEC, PASS_INC, PASS_DEC, STRIKE_INC, STRIKE_DEC
+    TOKEN_INCREMENT,
+    TOKEN_DECREMENT,
+    PASS_INCREMENT,
+    PASS_DECREMENT,
+    STRIKE_INCREMENT,
+    STRIKE_DECREMENT
 }

@@ -1,20 +1,20 @@
 /**
- * iSocial Project
- * http://isocial.missouri.edu
+ * iSocial Project http://isocial.missouri.edu
  *
- * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights
+ * Reserved
  *
- * Redistributions in source code form must reproduce the above
- * copyright and this condition.
+ * Redistributions in source code form must reproduce the above copyright and
+ * this condition.
  *
- * The contents of this file are subject to the GNU General Public
- * License, Version 2 (the "License"); you may not use this file
- * except in compliance with the License. A copy of the License is
- * available at http://www.opensource.org/licenses/gpl-license.php.
+ * The contents of this file are subject to the GNU General Public License,
+ * Version 2 (the "License"); you may not use this file except in compliance
+ * with the License. A copy of the License is available at
+ * http://www.opensource.org/licenses/gpl-license.php.
  *
- * The iSocial project designates this particular file as
- * subject to the "Classpath" exception as provided by the iSocial
- * project in the License file that accompanied this code.
+ * The iSocial project designates this particular file as subject to the
+ * "Classpath" exception as provided by the iSocial project in the License file
+ * that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
@@ -39,12 +39,14 @@ import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.ResultType;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 
 /**
  * Token student view.
+ *
  * @author Jonathan Kaplan <Jonathankap@wonderbuilders.com>
  * @author Ryan Babiuch
  * @author Kaustubh
@@ -55,6 +57,9 @@ public class TokenStudentView
 
     private static final Logger LOGGER =
             Logger.getLogger(TokenStudentView.class.getName());
+    private static final String POSSIBLE_PER_STUDENT_PER_LESSON = "tokens.possible.per.student.per.lesson";
+    private static final String POSSIBLE_PER_STUDENT_PER_UNIT = "tokens.possible.per.student.per.unit";
+    private static final String NUMBER_OF_STUDENTS = "number.of.students";
     private ISocialManager manager;
     private Sheet sheet;
     private Role role;
@@ -65,20 +70,47 @@ public class TokenStudentView
     private int maxLimit;
 
     public void initialize(ISocialManager manager, Sheet sheet, Role role) {
-        this.manager = manager;
-        this.sheet = sheet;
-        this.role = role;
-        this.panel = new TokenStudentPanel(manager, sheet);
-        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
-        int maxStudents = ((TokenSheet) sheet.getDetails()).getMaxStudents();
-        this.maxLimit = maxStudents * maxLessonTokens;
-
-        manager.addResultListener(sheet.getId(), this);
         try {
-            sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
-        } catch (IOException ioe) {
-            LOGGER.log(Level.WARNING, "Error reading results", ioe);
+            this.manager = manager;
+            this.sheet = sheet;
+            this.role = role;
+            this.panel = new TokenStudentPanel(manager, sheet);
+            //        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+            //        int maxStudents = ((TokenSheet) sheet.getDetails()).getMaxStudents();
+            String unitId = manager.getCurrentInstance().getUnit().getId();
+
+            int maxLessonTokens = Integer.valueOf(getMaxLessonTokens());
+            
+            int maxStudents = Integer.valueOf(getMaxStudents());
+
+            this.maxLimit = maxStudents * maxLessonTokens;
+
+            manager.addResultListener(sheet.getId(), this);
+
+            sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()),
+                                    panel,
+                                    maxLimit,
+                                    maxLessonTokens);
+
+        } catch (IOException ex) {
+            Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private String getMaxStudents() throws IOException {
+
+        CSString state = (CSString) manager.getCohortState(NUMBER_OF_STUDENTS).getDetails();
+        return state.getValue();
+
+
+    }
+
+    private String getMaxLessonTokens() throws IOException {
+
+        String unitId = manager.getCurrentInstance().getUnit().getId();
+        CSString state = (CSString) manager.getCohortState(unitId + POSSIBLE_PER_STUDENT_PER_LESSON).getDetails();
+        return state.getValue();
+
     }
 
     public String getMenuName() {
@@ -111,7 +143,7 @@ public class TokenStudentView
         if (result.getCreator().equals(manager.getUsername())) {
             if (result.getDetails() instanceof TokenResult) {
                 TokenResult tResult = (TokenResult) result.getDetails();
-                if (tResult.getType() == ResultType.TOKEN_INC) {
+                if (tResult.getType() == ResultType.TOKEN_INCREMENT) {
                     TokenSoundPlayer.getInstance().playTokenSound();
                 }
             }
@@ -123,7 +155,10 @@ public class TokenStudentView
             public void run() {
                 panel.resetImage();
                 try {
-                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
+                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()),
+                                                panel,
+                                                maxLimit,
+                                                Integer.valueOf(getMaxLessonTokens()).intValue());
                     tokenLabel.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,7 +171,7 @@ public class TokenStudentView
         if (result.getCreator().equals(manager.getUsername())) {
             if (result.getDetails() instanceof TokenResult) {
                 TokenResult tResult = (TokenResult) result.getDetails();
-                if (tResult.getType() == ResultType.TOKEN_INC) {
+                if (tResult.getType() == ResultType.TOKEN_INCREMENT) {
                     TokenSoundPlayer.getInstance().playTokenSound();
                 }
             }
@@ -147,7 +182,10 @@ public class TokenStudentView
             public void run() {
                 panel.resetImage();
                 try {
-                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()), panel, maxLimit);
+                    sortAndDisplayTokens((ArrayList<Result>) manager.getResults(sheet.getId()),
+                                            panel,
+                                            maxLimit,
+                                            Integer.valueOf(getMaxLessonTokens()).intValue());
                     tokenLabel.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(TokenStudentView.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,17 +195,23 @@ public class TokenStudentView
     }
 
     /**
-     * 
-     * @param results 
+     *
+     * @param results
      */
-    private void sortAndDisplayTokens(ArrayList<Result> results, TokenStudentPanel panel, int limit) {
-        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+    private void sortAndDisplayTokens(ArrayList<Result> results, TokenStudentPanel panel, int limit, int maxLessonTokens) {
+//        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+        
+        //if the size of the results is greater than0 and max lesson tokens is greater than 0...
         if (results.size() > 0 && maxLessonTokens > 0) {
+            //make the limit = the results size * max possible lesson tokens
             limit = results.size() * maxLessonTokens;
         }
+        
+        //sort the results
         Collections.sort(results, new Comparator<Result>() {
 
             public int compare(Result r1, Result r2) {
+               
                 String creator1 = r1.getCreator().toLowerCase();
                 String creator2 = r2.getCreator().toLowerCase();
                 return Collator.getInstance().compare(creator1, creator2);

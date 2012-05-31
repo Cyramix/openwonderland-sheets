@@ -33,7 +33,9 @@ import org.jdesktop.wonderland.modules.isocial.common.model.annotation.ISocialMo
 public class Student implements Serializable {
 
     private String name;
-    private int tokenValue, passValue, strikesValues;
+    private int tokenValue;
+    private int passValue;
+    private int strikesValues;
 
     public Student() {
     }

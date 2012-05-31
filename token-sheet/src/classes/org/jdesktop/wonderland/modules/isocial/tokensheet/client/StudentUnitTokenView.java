@@ -1,20 +1,20 @@
 /**
- * iSocial Project
- * http://isocial.missouri.edu
+ * iSocial Project http://isocial.missouri.edu
  *
- * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights
+ * Reserved
  *
- * Redistributions in source code form must reproduce the above
- * copyright and this condition.
+ * Redistributions in source code form must reproduce the above copyright and
+ * this condition.
  *
- * The contents of this file are subject to the GNU General Public
- * License, Version 2 (the "License"); you may not use this file
- * except in compliance with the License. A copy of the License is
- * available at http://www.opensource.org/licenses/gpl-license.php.
+ * The contents of this file are subject to the GNU General Public License,
+ * Version 2 (the "License"); you may not use this file except in compliance
+ * with the License. A copy of the License is available at
+ * http://www.opensource.org/licenses/gpl-license.php.
  *
- * The iSocial project designates this particular file as
- * subject to the "Classpath" exception as provided by the iSocial
- * project in the License file that accompanied this code.
+ * The iSocial project designates this particular file as subject to the
+ * "Classpath" exception as provided by the iSocial project in the License file
+ * that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
@@ -42,12 +42,13 @@ import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 
 /**
  * Creates the Unit token view for students and guides. For students, it shows
- * the number of token they have received in each lesson. For guides, it shows 
+ * the number of token they have received in each lesson. For guides, it shows
  * the total number token given to all the students.
  *
  * @author Kaustubh
@@ -56,6 +57,9 @@ import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 public class StudentUnitTokenView extends JPanel implements SheetView, ResultListener,
         DockableSheetView {
 
+    private static final String POSSIBLE_PER_STUDENT_PER_LESSON = "tokens.possible.per.student.per.lesson";
+    private static final String POSSIBLE_PER_STUDENT_PER_UNIT = "tokens.possible.per.student.per.unit";
+    private static final String NUMBER_OF_STUDENTS = "number.of.students";
     private ISocialManager manager;
     private Sheet sheet;
     private int rows;
@@ -64,22 +68,51 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
     private JLabel currentLabel, unitLabel;
     private int maxLessonLimit, maxUnitLimit;
 
-    public void initialize(ISocialManager manager, Sheet sheet, Role role) {
-        this.manager = manager;
-        this.sheet = sheet;
-        int maxLessonTokens = ((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
-        int maxStudents = ((TokenSheet) sheet.getDetails()).getMaxStudents();
-        this.maxLessonLimit = maxLessonTokens * maxStudents;
-        this.maxUnitLimit = ((TokenSheet) sheet.getDetails()).getMaxUnitTokens();
+    private String getUnitId() throws IOException {
+        return manager.getCurrentInstance().getUnit().getId();
+    }
 
-        String currentLesson = null;
+    private int getMaxLessonTokens() throws IOException {
+        String unitId = getUnitId();
+
+        CSString state = (CSString) manager.getCohortState(unitId + POSSIBLE_PER_STUDENT_PER_LESSON).getDetails();
+
+        return Integer.parseInt(state.getValue());
+    }
+
+    private int getMaxStudents() throws IOException {
+        CSString state = null;
+        state = (CSString) manager.getCohortState(NUMBER_OF_STUDENTS).getDetails();
+
+        return Integer.parseInt(state.getValue());
+    }
+
+    private int getMaxUnitTokens() throws IOException {
+        String unitId = getUnitId();
+        CSString state = null;
+        state = (CSString) manager.getCohortState(unitId + POSSIBLE_PER_STUDENT_PER_LESSON).getDetails();
+
+        return Integer.parseInt(state.getValue());
+
+    }
+
+    public void initialize(ISocialManager manager, Sheet sheet, Role role) {
         try {
-            currentLesson = manager.getCurrentInstance().getLesson().getId();
-        } catch (IOException ex) {
-            Logger.getLogger(StudentUnitTokenView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        manager.addResultListener(sheet.getId(), this);
-        try {
+            this.manager = manager;
+            this.sheet = sheet;
+            int maxLessonTokens = getMaxLessonTokens();//((TokenSheet) sheet.getDetails()).getMaxLessonTokens();
+            int maxStudents = getMaxStudents();//((TokenSheet) sheet.getDetails()).getMaxStudents();
+            this.maxLessonLimit = maxLessonTokens * maxStudents;
+            this.maxUnitLimit = getMaxUnitTokens();//((TokenSheet) sheet.getDetails()).getMaxUnitTokens();
+
+//            String currentLesson = null;
+//            try {
+//                currentLesson = manager.getCurrentInstance().getLesson().getId();
+//            } catch (IOException ex) {
+//                Logger.getLogger(StudentUnitTokenView.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            manager.addResultListener(sheet.getId(), this);
+//            try {
 
             //Add the current lesson results in the view.
             GridLayout gl = (GridLayout) getLayout();
@@ -90,10 +123,10 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
             currentLabel.setHorizontalTextPosition(JLabel.CENTER);
             currentLabel.setText(lessonName);
 
-            int lessonNameWidth = currentLabel.getFontMetrics(currentLabel.getFont()).stringWidth(lessonName) + 15;
+//            int lessonNameWidth = currentLabel.getFontMetrics(currentLabel.getFont()).stringWidth(lessonName) + 15;
             if (role != Role.STUDENT) {
-                    rows++;
-                    gl.setRows(rows);
+                rows++;
+                gl.setRows(rows);
                 this.add(currentLabel);
                 this.setPreferredSize(new Dimension(currentLessonPanel.getImageIcon().getIconWidth(),
                         currentLessonPanel.getImageIcon().getIconHeight() * rows));
@@ -116,7 +149,7 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
                 //                }
                 ArrayList<Result> results = (ArrayList<Result>) manager.getResults(sheet.getId());
                 sortAndDisplayTokens(results, currentLessonPanel, maxLessonLimit);
-                    }
+            }
 
 
             //Add the unit tokens view.
@@ -136,6 +169,9 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
                     unitPanel.getImageIcon().getIconHeight() * rows));
             ArrayList<Result> unitTokenResults = (ArrayList<Result>) manager.getCurrentUnitResults(sheet.getDetails());
             sortAndDisplayTokens(unitTokenResults, unitPanel, maxUnitLimit);
+//            } catch (IOException ex) {
+//                Logger.getLogger(StudentUnitTokenView.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         } catch (IOException ex) {
             Logger.getLogger(StudentUnitTokenView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,15 +196,17 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
         manager.removeResultListener(sheet.getId(), this);
     }
 
-    /** Creates new form StudentUnitTokenView */
+    /**
+     * Creates new form StudentUnitTokenView
+     */
     public StudentUnitTokenView() {
         initComponents();
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -224,8 +262,8 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
     // End of variables declaration//GEN-END:variables
 
     /**
-     * 
-     * @param results 
+     *
+     * @param results
      */
     private void sortAndDisplayTokens(ArrayList<Result> results, TokenStudentPanel panel, int limit) {
         Collections.sort(results, new Comparator<Result>() {
@@ -234,7 +272,7 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
                 String creator1 = r1.getCreator().toLowerCase();
                 String creator2 = r2.getCreator().toLowerCase();
                 return Collator.getInstance().compare(creator1, creator2);
-}
+            }
         });
         panel.updateTokens(results, limit, true);
     }

@@ -122,9 +122,9 @@ public class PassStrikesStudentView implements SheetView, ResultListener {
         if (result.getCreator().equals(manager.getUsername())) {
             if (result.getDetails() instanceof TokenResult) {
                 TokenResult tResult = (TokenResult) result.getDetails();
-                if (tResult.getType() == ResultType.PASS_INC) {
+                if (tResult.getType() == ResultType.PASS_INCREMENT) {
                     TokenSoundPlayer.getInstance().playPassSound();
-                } else if (tResult.getType() == ResultType.STRIKE_INC) {
+                } else if (tResult.getType() == ResultType.STRIKE_INCREMENT) {
                     TokenSoundPlayer.getInstance().playStrikeSound();
                 }
             }
@@ -138,9 +138,9 @@ public class PassStrikesStudentView implements SheetView, ResultListener {
         if (result.getCreator().equals(manager.getUsername())) {
             if (result.getDetails() instanceof TokenResult) {
                 TokenResult tResult = (TokenResult) result.getDetails();
-                if (tResult.getType() == ResultType.PASS_INC) {
+                if (tResult.getType() == ResultType.PASS_INCREMENT) {
                     TokenSoundPlayer.getInstance().playPassSound();
-                } else if (tResult.getType() == ResultType.STRIKE_INC) {
+                } else if (tResult.getType() == ResultType.STRIKE_INCREMENT) {
                     TokenSoundPlayer.getInstance().playStrikeSound();
                 }
             }
