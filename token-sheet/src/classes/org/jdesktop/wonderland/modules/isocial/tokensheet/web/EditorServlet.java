@@ -226,7 +226,8 @@ public class EditorServlet extends ISocialServletBase {
             } else {
                 continue;
             }
-
+            boolean publish = request.getParameter("action").equalsIgnoreCase("publish");
+            sheet.setPublished(publish);
             dao(request).updateSheet(sheet);
 
         }
@@ -314,6 +315,10 @@ public class EditorServlet extends ISocialServletBase {
             for (Sheet sheet : sheets) {
                 //check if this sheet is in the specified group
 //                LOGGER.warning("Check this sheet is in the specified group: "+groupId);
+                if(sheet.getGroupId() == null) {
+                    continue;
+                }
+                
                 if (sheet.getGroupId().equals(groupId)) {
                     LOGGER.warning("Add sheet to group: " + groupId);
                     //if so, add this sheet to the list of sheets
