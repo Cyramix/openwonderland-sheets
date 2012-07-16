@@ -20,6 +20,7 @@ package org.jdesktop.wonderland.modules.isocial.client.view;
 
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
@@ -57,7 +58,7 @@ public interface SheetView {
      * @param HUD the hud to use to create any component
      * @return the panel representing this sheet
      */
-    public HUDComponent open(HUD hud);
+    public HUDDetailsWrapper open(HUD hud);
 
     /**
      * Notification that this sheet has been closed.

@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
@@ -173,8 +174,12 @@ public class GenericGuideView extends javax.swing.JPanel
         return ((GenericSheet)sheet.getDetails()).isAutoOpen();
     }
 
-    public HUDComponent open(HUD hud) {
-        return hud.createComponent(this);
+    public HUDDetailsWrapper open(HUD hud) {
+        
+        HUDComponent hudComponent = hud.createComponent(this);
+        
+        
+        return new HUDDetailsWrapper(sheet.getName(), hudComponent, this);
     }
 
     public void close() {

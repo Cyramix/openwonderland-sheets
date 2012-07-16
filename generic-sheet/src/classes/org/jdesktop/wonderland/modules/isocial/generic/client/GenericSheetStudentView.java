@@ -1,20 +1,20 @@
 /**
- * iSocial Project
- * http://isocial.missouri.edu
+ * iSocial Project http://isocial.missouri.edu
  *
- * Copyright (c) 2011, University of Missouri iSocial Project, All Rights Reserved
+ * Copyright (c) 2011, University of Missouri iSocial Project, All Rights
+ * Reserved
  *
- * Redistributions in source code form must reproduce the above
- * copyright and this condition.
+ * Redistributions in source code form must reproduce the above copyright and
+ * this condition.
  *
- * The contents of this file are subject to the GNU General Public
- * License, Version 2 (the "License"); you may not use this file
- * except in compliance with the License. A copy of the License is
- * available at http://www.opensource.org/licenses/gpl-license.php.
+ * The contents of this file are subject to the GNU General Public License,
+ * Version 2 (the "License"); you may not use this file except in compliance
+ * with the License. A copy of the License is available at
+ * http://www.opensource.org/licenses/gpl-license.php.
  *
- * The iSocial project designates this particular file as
- * subject to the "Classpath" exception as provided by the iSocial
- * project in the License file that accompanied this code.
+ * The iSocial project designates this particular file as subject to the
+ * "Classpath" exception as provided by the iSocial project in the License file
+ * that accompanied this code.
  */
 package org.jdesktop.wonderland.modules.isocial.generic.client;
 
@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import org.jdesktop.wonderland.client.comms.ClientConnection;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.DockableSheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
@@ -50,12 +51,13 @@ import org.jdesktop.wonderland.modules.isocial.generic.common.GenericQuestion;
 import org.jdesktop.wonderland.modules.isocial.generic.common.MultipleChoiceQuestion;
 
 /**
- * This view will need to consist of a JPanel with a card layout.  On initialize,
+ * This view will need to consist of a JPanel with a card layout. On initialize,
  * we'll grab the questions from the sheet and populate GenericQuestionPanels
  * which will then be added to the original JPanel via the card layout.
  */
 /**
  * Generic student view.
+ *
  * @author Jonathan Kaplan <Jonathankap@wonderbuilders.com>
  * @author Kaustubh
  */
@@ -132,9 +134,14 @@ public class GenericSheetStudentView
         return ((GenericSheet) sheet.getDetails()).isAutoOpen();
     }
 
-    public HUDComponent open(HUD hud) {
+//    public HUDComponent open(HUD hud) {
+//        component = hud.createComponent(panel);
+//        return component;
+//    }
+    public HUDDetailsWrapper open(HUD hud) {
         component = hud.createComponent(panel);
-        return component;
+        
+        return new HUDDetailsWrapper(sheet.getDetails().getName(), component, panel);
     }
 
     public void close() {
@@ -203,6 +210,7 @@ public class GenericSheetStudentView
 
     /**
      * Determine if this sheet is dockable
+     *
      * @return
      */
     public boolean isDockable() {

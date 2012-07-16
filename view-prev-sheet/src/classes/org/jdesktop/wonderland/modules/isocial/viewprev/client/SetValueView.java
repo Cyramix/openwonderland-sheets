@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
@@ -129,8 +130,9 @@ public class SetValueView extends javax.swing.JPanel implements SheetView {
         return false;
     }
 
-    public HUDComponent open(HUD hud) {
-        return hud.createComponent(this);
+    public HUDDetailsWrapper open(HUD hud) {
+        HUDComponent component =  hud.createComponent(this);
+        return new HUDDetailsWrapper(sheet.getName(), component, this);
     }
 
     public void close() {

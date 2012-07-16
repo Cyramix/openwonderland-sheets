@@ -11,16 +11,6 @@
             <properties/>
             <folders>
                 <source-folder>
-                    <label>web</label>
-                    <type>doc_root</type>
-                    <location>web</location>
-                </source-folder>
-                <source-folder>
-                    <label>WEB-INF</label>
-                    <type>web_inf</type>
-                    <location>web/WEB-INF</location>
-                </source-folder>
-                <source-folder>
                     <label>iSocial-multiplechoice-sheet</label>
                     <location>.</location>
                     <encoding>UTF-8</encoding>
@@ -30,6 +20,16 @@
                     <type>java</type>
                     <location>src/classes</location>
                     <encoding>UTF-8</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>web</label>
+                    <type>doc_root</type>
+                    <location>web</location>
+                </source-folder>
+                <source-folder>
+                    <label>WEB-INF</label>
+                    <type>web_inf</type>
+                    <location>web/WEB-INF</location>
                 </source-folder>
             </folders>
             <ide-actions>
@@ -83,7 +83,6 @@
         <web-data xmlns="http://www.netbeans.org/ns/freeform-project-web/1">
             <web-module>
                 <doc-root>web</doc-root>
-                <classpath/>
                 <context-path>/admin-tools</context-path>
                 <j2ee-spec-level>1.5</j2ee-spec-level>
             </web-module>

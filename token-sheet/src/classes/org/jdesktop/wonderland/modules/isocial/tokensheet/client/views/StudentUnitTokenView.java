@@ -16,8 +16,9 @@
  * "Classpath" exception as provided by the iSocial project in the License file
  * that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentPanel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -34,6 +35,7 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.wonderland.client.hud.CompassLayout.Layout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.DockableSheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
@@ -185,11 +187,11 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
         return ((TokenSheet) sheet.getDetails()).isAutoOpen();
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         hudComponent = hud.createComponent(this);
         hudComponent.setPreferredLocation(Layout.EAST);
         hudComponent.setTransparency(1.0f);
-        return hudComponent;
+        return new HUDDetailsWrapper(sheet.getName(), hudComponent, this);
     }
 
     public void close() {

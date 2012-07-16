@@ -16,8 +16,9 @@
  * "Classpath" exception as provided by the iSocial project in the License file
  * that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentPanel;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.Collator;
@@ -32,6 +33,7 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.wonderland.client.hud.CompassLayout.Layout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
@@ -40,6 +42,7 @@ import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
 import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TokenSoundPlayer;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.ResultType;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
@@ -122,7 +125,7 @@ public class TokenStudentView
         return true;
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         ImageIcon imageIcon = panel.getImageIcon();
         tokenLabel = new JLabel(imageIcon);
         tokenLabel.setOpaque(false);
@@ -132,7 +135,8 @@ public class TokenStudentView
         component.setPreferredLocation(Layout.NORTHWEST);
         component.setPreferredTransparency(1.0f);
         component.setTransparency(1.0f);
-        return component;
+//        return component;
+        return new HUDDetailsWrapper(sheet.getName(), component, tokenLabel);
     }
 
     public void close() {

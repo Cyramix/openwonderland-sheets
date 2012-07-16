@@ -18,6 +18,7 @@
  */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.TokenGuideView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -84,7 +85,7 @@ public class TokenSoundPlayer {
     /**
      * This method plays the sound when token is assigned.
      */
-    static void playTokenSound() {
+    public static void playTokenSound() {
         String cacheURL = getInstance().getCacheURL(tokenAudioSource);
         try {
             SoftphoneControlImpl.getInstance().sendCommandToSoftphone("playFile=" + cacheURL + "=" + volumeConverter.getVolume(50));
@@ -96,7 +97,7 @@ public class TokenSoundPlayer {
     /**
      * This method plays the sound when strike is assigned.
      */
-    static void playStrikeSound() {
+    public static void playStrikeSound() {
         String cacheURL = getInstance().getCacheURL(tokenAudioSource);
 //        try {
 //            SoftphoneControlImpl.getInstance().sendCommandToSoftphone("playFile=" + cacheURL + "=" + volumeConverter.getVolume(50));
@@ -106,6 +107,6 @@ public class TokenSoundPlayer {
 
     }
 
-    static void playPassSound() {
+    public static void playPassSound() {
     }
 }

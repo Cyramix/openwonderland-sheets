@@ -1,4 +1,4 @@
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;

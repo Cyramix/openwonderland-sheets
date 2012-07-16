@@ -16,8 +16,9 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.PassStrikeStudentPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import javax.swing.JLabel;
 import org.jdesktop.wonderland.client.hud.CompassLayout.Layout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
@@ -35,6 +37,7 @@ import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TokenSoundPlayer;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.ResultType;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
@@ -84,7 +87,7 @@ public class PassStrikesStudentView implements SheetView, ResultListener {
         return true;
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         ImageIcon imageIcon = panel.getImageIcon();
         passStrikeLabel = new JLabel(imageIcon);
         passStrikeLabel.setOpaque(false);
@@ -111,7 +114,9 @@ public class PassStrikesStudentView implements SheetView, ResultListener {
         component.setDecoratable(false);
         component.setPreferredLocation(Layout.NORTHEAST);
         component.setTransparency(1.0f);
-        return component;
+//        return component;
+        
+        return new HUDDetailsWrapper(sheet.getName(), component, passStrikeLabel);
     }
 
     public void close() {

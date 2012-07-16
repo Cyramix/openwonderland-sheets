@@ -854,22 +854,24 @@ public enum ISocialManager {
 
         private void initializeView(String sheetId, SheetView view) {
             HUD mainHUD = HUDManagerFactory.getHUDManager().getHUD("main");
-            HUDComponent component = view.open(mainHUD);
+            HUDDetailsWrapper wrapper = view.open(mainHUD);
+            HUDComponent hudComponent = wrapper.getHudComponent();
+            //            HUDComponent component = view.open(mainHUD);
 
-            component.setVisible(false);
+            hudComponent.setVisible(false);
             
             // only update location if it is not set by the component
-            if (component.getPreferredLocation() == null 
-                || component.getPreferredLocation() == Layout.NONE) {
-                component.setPreferredLocation(Layout.NORTHEAST);
+            if (hudComponent.getPreferredLocation() == null 
+                || hudComponent.getPreferredLocation() == Layout.NONE) {
+                hudComponent.setPreferredLocation(Layout.NORTHEAST);
             }
             
-            component.setName(view.getMenuName());
+            hudComponent.setName(view.getMenuName());
 
-            mainHUD.addComponent(component);
+            mainHUD.addComponent(hudComponent);
 
             final SheetViewMenuItem item = new SheetViewMenuItem(sheetId, view,
-                    component);
+                    hudComponent);
 
             item.addActionListener(new ActionListener() {
 
@@ -882,7 +884,7 @@ public enum ISocialManager {
                 }
             });
 
-            component.addEventListener(new HUDEventListener() {
+            hudComponent.addEventListener(new HUDEventListener() {
 
                 public void HUDObjectChanged(HUDEvent event) {
                     if (event.getEventType() == HUDEventType.CLOSED
@@ -907,7 +909,7 @@ public enum ISocialManager {
                 if (dockSheetView.isDockable()) {
 //                    DockManager.getInstance().register(component);
                     for(ViewListener listener: viewListeners) {
-                        listener.viewOpened(component);
+                        listener.viewOpened(wrapper);
                     }
                 }
             }

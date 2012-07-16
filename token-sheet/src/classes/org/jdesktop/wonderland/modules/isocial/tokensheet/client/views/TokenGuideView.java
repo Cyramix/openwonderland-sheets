@@ -1,5 +1,7 @@
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.StudentDetailsPanel;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentViewPanel;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -30,6 +32,7 @@ import org.jdesktop.wonderland.client.hud.CompassLayout.Layout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
 import org.jdesktop.wonderland.client.login.ServerSessionManager;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.DockableSheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
@@ -39,6 +42,10 @@ import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.ResultMetadata;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.AudioCacheHandler;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.AudioCacheHandlerException;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TokenSoundPlayer;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.VolumeConverter;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 import org.jdesktop.wonderland.modules.presencemanager.client.PresenceManager;
@@ -158,11 +165,11 @@ public class TokenGuideView extends javax.swing.JPanel
         return ((TokenSheet) sheet.getDetails()).isAutoOpen();
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         HUDComponent component = hud.createComponent(this);
         //component.setTransparency(1.0f);
         component.setPreferredLocation(Layout.NORTHEAST);
-        return component;
+        return new HUDDetailsWrapper(sheet.getName(), component, this);
     }
 
     public void close() {

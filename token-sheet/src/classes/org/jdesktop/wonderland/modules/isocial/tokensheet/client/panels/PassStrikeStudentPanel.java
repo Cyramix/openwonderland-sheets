@@ -16,7 +16,7 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.jdesktop.wonderland.modules.isocial.common.model.ResultDetails;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.CustomDimension;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 
 /**
@@ -55,7 +56,7 @@ public class PassStrikeStudentPanel extends ImageIcon {
     private final Color strikeColor = new Color(183, 40, 47);
     private CustomDimension[] passD, strikeD;
 
-    PassStrikeStudentPanel(String url) {
+    public PassStrikeStudentPanel(String url) {
         super(url);
         image = Toolkit.getDefaultToolkit().createImage(getClass().getResource(url));
         tracker.addImage(image, 0);
@@ -129,7 +130,7 @@ public class PassStrikeStudentPanel extends ImageIcon {
     /**
      * Updates the images upon student getting the pass or strikes from guide
      */
-    synchronized void updateStudentStrikesPasses(TokenResult tokenResult) {
+    public synchronized void updateStudentStrikesPasses(TokenResult tokenResult) {
         this.details = tokenResult;
         paintIcon(component, graphics, 25, 45);
         component.repaint();
@@ -143,7 +144,7 @@ public class PassStrikeStudentPanel extends ImageIcon {
      * Resets the image to initial state before updating any passes and strikes
      * to it.
      */
-    synchronized void resetImage() {
+    public synchronized void resetImage() {
         graphics.drawImage(image, 0, 0, component);
     }
 }

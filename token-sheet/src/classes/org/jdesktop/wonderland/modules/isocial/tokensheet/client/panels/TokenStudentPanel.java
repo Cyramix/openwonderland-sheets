@@ -16,7 +16,7 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +40,7 @@ import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.ImageManager;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 
 /**
@@ -65,7 +66,7 @@ public class TokenStudentPanel extends ImageIcon {
     private int totalTokens, maxLimit;
     private Sheet sheet;
 
-    TokenStudentPanel(ISocialManager manager, Sheet sheet) {
+    public TokenStudentPanel(ISocialManager manager, Sheet sheet) {
         //super(url);
         this.userName = manager.getUsername();
         this.manager = manager;
@@ -161,7 +162,7 @@ public class TokenStudentPanel extends ImageIcon {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(e);
     }
 
-    void updateTokens(Collection<Result> results, int maxLimit, boolean calcTotal) {
+    public void updateTokens(Collection<Result> results, int maxLimit, boolean calcTotal) {
         totalTokens = 0;
         this.maxLimit = maxLimit;
         if (calcTotal) {
@@ -173,7 +174,7 @@ public class TokenStudentPanel extends ImageIcon {
         }
     }
 
-    synchronized void resetImage() {
+    public synchronized void resetImage() {
         graphics.drawImage(image, 0, 0, component);
         startMeterX = 18 * iWidth / 100;
         try {

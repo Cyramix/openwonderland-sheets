@@ -1,4 +1,4 @@
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
         manager = ISocialManager.INSTANCE;
     }
 
-    StudentDetailsPanel(ISocialManager manager, Student student, TokenSheet sheet) {
+    public StudentDetailsPanel(ISocialManager manager, Student student, TokenSheet sheet) {
         try {
             initComponents();
             this.manager = manager;
@@ -252,7 +252,7 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel tokens;
     // End of variables declaration                   
 
-    TokenResult getDetails() {
+    public TokenResult getDetails() {
         student.setTokensValue(token);
         student.setPassesValue(pass);
         student.setStrikesValue(strike);
@@ -264,7 +264,7 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
         return details;
     }
 
-    void updateResult(Student student) {
+    public void updateResult(Student student) {
         this.student = student;
         this.token = student.getTokensValue();
         this.pass = student.getPassesValue();

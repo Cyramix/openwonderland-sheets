@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
@@ -85,9 +86,9 @@ public class SampleStudentView
         return ((SampleSheet) sheet.getDetails()).isAutoOpen();
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         component = hud.createComponent(panel);
-        return component;
+        return new HUDDetailsWrapper(sheet.getName(), component, panel);
     }
 
     public void close() {

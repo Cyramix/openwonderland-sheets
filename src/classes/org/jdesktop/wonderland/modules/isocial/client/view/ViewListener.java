@@ -5,11 +5,12 @@
 package org.jdesktop.wonderland.modules.isocial.client.view;
 
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 
 /**
  *
  * @author Ryan
  */
 public interface ViewListener {
-    public void viewOpened(HUDComponent component);
+    public void viewOpened(HUDDetailsWrapper wrapper);
 }

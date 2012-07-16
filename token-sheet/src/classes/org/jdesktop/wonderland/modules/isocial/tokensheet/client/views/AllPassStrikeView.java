@@ -16,8 +16,9 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.PassStrikeStudentPanel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -35,6 +36,7 @@ import javax.swing.JPanel;
 import org.jdesktop.wonderland.client.hud.CompassLayout.Layout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
+import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.ResultListener;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
@@ -142,12 +144,15 @@ public class AllPassStrikeView extends JPanel implements SheetView, ResultListen
         return false;
     }
 
-    public HUDComponent open(HUD hud) {
+    public HUDDetailsWrapper open(HUD hud) {
         hudComponent = hud.createComponent(this);
         hudComponent.setPreferredLocation(Layout.EAST);
         hudComponent.setTransparency(1.0f);
-        return hudComponent;
+        
+        
+         return new HUDDetailsWrapper(sheet.getName(), hudComponent, this);
     }
+    
 
     public void close() {
         manager.removeResultListener(sheet.getId(), this);
