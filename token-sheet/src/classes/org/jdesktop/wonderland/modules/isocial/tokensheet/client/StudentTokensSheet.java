@@ -22,10 +22,13 @@ import org.jdesktop.wonderland.modules.isocial.client.HUDDetailsWrapper;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.client.view.SheetView;
 import org.jdesktop.wonderland.modules.isocial.client.view.annotation.View;
+import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
 import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.utils.UnitTokensRetriever;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.common.Student;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 
 /**
@@ -62,6 +65,18 @@ public class StudentTokensSheet implements SheetView {
         this.tokenDetails = (TokenSheet) sheet.getDetails();
         try {
             tokenScore.putAll(UnitTokensRetriever.retrieve(this));
+            
+            for(Result r: manager.getResults(sheet.getId())) {
+                if(r.getCreator().equals(manager.getUsername())) {
+                    TokenResult tr = (TokenResult)r.getDetails();
+                    Student sr = tr.getStudentResult();
+                    currentTokensForThisLesson = sr.getTokensValue();
+                    
+                }
+            }
+            
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,16 +102,18 @@ public class StudentTokensSheet implements SheetView {
             Integer unitTokensPerStudent = Integer.valueOf(getMaxUnitTokens());
             
             StudentTokensViewSPI view = new StudentTokenViewImpl(label,
-                                                    students*unitTokensPerStudent);
+                                                    students*unitTokensPerStudent,
+                                                    currentTokensForThisLesson,
+                                                    tokenScore);
             
             /*
              * TEST DATA
              */
 
-            students = 3;
-            unitTokensPerStudent = 100;
-            
-            view = new StudentTokenViewImpl(label, students * unitTokensPerStudent);
+//            students = 3;
+//            unitTokensPerStudent = 100;
+//            
+//            view = new StudentTokenViewImpl(label, students * unitTokensPerStudent);
             
             
             /*

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.presenters;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -13,6 +13,7 @@ import org.jdesktop.wonderland.client.hud.HUDComponent;
 import org.jdesktop.wonderland.client.hud.HUDManagerFactory;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.TeamBehaviorViewSPI;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TeamBehaviorReport;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.presenters.TeamBehaviorPresenter;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.TeamBehaviorViewImpl;
 

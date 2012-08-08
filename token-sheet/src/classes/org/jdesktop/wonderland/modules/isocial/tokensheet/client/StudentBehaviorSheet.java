@@ -4,6 +4,7 @@
  */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
 
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.presenters.UnobtrusiveViewPresenter;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.presenters.StudentBehaviorPresenter;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.StudentBehaviorViewSPI;
 import javax.swing.JLabel;

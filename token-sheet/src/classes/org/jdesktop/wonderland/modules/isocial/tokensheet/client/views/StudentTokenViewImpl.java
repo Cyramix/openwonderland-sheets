@@ -8,6 +8,7 @@ import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.StudentToke
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -31,17 +32,20 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
     private Logger logger = Logger.getLogger(StudentTokenViewImpl.class.getName());
     private ScoreMeterBrush brush;
     
-    public StudentTokenViewImpl(JLabel label, int maxTokens) {
+    public StudentTokenViewImpl(JLabel label,
+                                int maxTokens,
+                                int initialCurrentTokens,
+                                Map<String, Integer> initialScore) {
         swingView = label;
         brush = new ScoreMeterBrush(maxTokens);
         
         /*
          * TEST DATA
          */
-        brush.addSection(new TokenMeterSection("C", Color.red, 100));
-        brush.addSection(new TokenMeterSection("B", Color.yellow, 100));
-        brush.addSection(new TokenMeterSection("A", Color.blue, 100));
-        
+//        brush.addSection(new TokenMeterSection("C", Color.red, 100));
+//        brush.addSection(new TokenMeterSection("B", Color.yellow, 100));
+//        brush.addSection(new TokenMeterSection("A", Color.blue, 100));
+//        
         /*
          * END TEST DATA
          */
@@ -49,11 +53,8 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
         
         
         logger.warning("CREATING STUDENT TOKEN VIEW!");
-        retrieveImage();
+        updateImage(initialCurrentTokens, initialScore);
 
-    }
-
-    public void updateImage() {
     }
     
     public void updateImage(int currentLessonTokens, Map<String, Integer> tokenScore) {
@@ -74,7 +75,8 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
         }
         
         
-        brush.paintMeter(currentLessonTokens);
+        ImageIcon icon = new ImageIcon(brush.paintMeter(currentLessonTokens));
+        swingView.setIcon(icon);
     }
 
     private void retrieveImage() {

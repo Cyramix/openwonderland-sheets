@@ -76,7 +76,7 @@ public class StudentTokensPresenter extends TokenResultHandler {
 
     private void updateModelAndView(Student student) {
        
-        model.updateTokenScore(student.getName(), student.getTokensValue());
+        model.updateTokenScore(student.getName(), student.getTokensValue());               
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 view.updateImage(model.getCurrentLessonTokens(), model.getTokenScore());
@@ -109,6 +109,8 @@ public class StudentTokensPresenter extends TokenResultHandler {
     protected void tokenDecremented(TokenResult result) {
         Student student = result.getStudentResult();
         
+        logger.warning("SETTING MY TOKENS AMOUNT TO: "+student.getTokensValue());
+        model.setCurrentTokensForThisLesson(student.getTokensValue());
         updateModelAndView(student);
     }
 

@@ -138,6 +138,9 @@ public class ScoreMeterBrush {
     private void paintNumber(Graphics2D g, int number) {
         g.setColor(Color.BLACK);
         g.drawString(String.valueOf(number), NUMBER_POSITION_X, NUMBER_POSITION_Y);
+        
+        logger.warning("PAINTING NUMBER: "+number);
+        
     }
 
     private void paintBackgroundImage(Graphics2D graphics, Image i) {
