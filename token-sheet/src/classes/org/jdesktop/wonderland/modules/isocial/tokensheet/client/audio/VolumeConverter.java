@@ -15,7 +15,7 @@
  * exception as provided by Sun in the License file that accompanied 
  * this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio;
 
 /**
  * This code is borrowed from EZScript Module.

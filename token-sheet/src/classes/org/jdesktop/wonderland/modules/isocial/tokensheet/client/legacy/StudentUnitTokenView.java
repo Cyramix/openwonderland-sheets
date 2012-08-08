@@ -16,9 +16,8 @@
  * "Classpath" exception as provided by the iSocial project in the License file
  * that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentPanel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -55,7 +54,7 @@ import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
  *
  * @author Kaustubh
  */
-@View(value = TokenSheet.class, roles = {Role.GUIDE, Role.ADMIN, Role.STUDENT})
+//@View(value = TokenSheet.class, roles = {Role.GUIDE, Role.ADMIN, Role.STUDENT})
 public class StudentUnitTokenView extends JPanel implements SheetView, ResultListener,
         DockableSheetView {
 
@@ -117,7 +116,7 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
 //            try {
 
             //Add the current lesson results in the view.
-            GridLayout gl = (GridLayout) getLayout();
+            GridLayout gridLayout = (GridLayout) getLayout();
             currentLessonPanel = new TokenStudentPanel(manager, sheet);
             String lessonName = manager.getCurrentInstance().getLesson().getName();
             currentLabel = new JLabel(currentLessonPanel.getImageIcon());
@@ -128,7 +127,7 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
 //            int lessonNameWidth = currentLabel.getFontMetrics(currentLabel.getFont()).stringWidth(lessonName) + 15;
             if (role != Role.STUDENT) {
                 rows++;
-                gl.setRows(rows);
+                gridLayout.setRows(rows);
                 this.add(currentLabel);
                 this.setPreferredSize(new Dimension(currentLessonPanel.getImageIcon().getIconWidth(),
                         currentLessonPanel.getImageIcon().getIconHeight() * rows));
@@ -158,7 +157,7 @@ public class StudentUnitTokenView extends JPanel implements SheetView, ResultLis
 
             unitPanel = new TokenStudentPanel(manager, sheet);
             rows++;
-            gl.setRows(rows);
+            gridLayout.setRows(rows);
             String unitName = manager.getCurrentInstance().getUnit().getName();
             unitLabel = new JLabel(unitPanel.getImageIcon());
             unitLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));

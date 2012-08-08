@@ -16,9 +16,8 @@
  * "Classpath" exception as provided by the iSocial project in the License file
  * that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentPanel;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.Collator;
@@ -42,7 +41,7 @@ import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
 import org.jdesktop.wonderland.modules.isocial.common.model.state.CSString;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TokenSoundPlayer;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.TokenSoundPlayer;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.ResultType;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
@@ -54,7 +53,7 @@ import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
  * @author Ryan Babiuch
  * @author Kaustubh
  */
-@View(value = TokenSheet.class, roles = Role.STUDENT)
+//@View(value = TokenSheet.class, roles = Role.STUDENT)
 public class TokenStudentView
         implements SheetView, ResultListener {
 

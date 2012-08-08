@@ -16,9 +16,11 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio;
 
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.TokenGuideView;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.AudioCacheHandlerException;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.AudioCacheHandler;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy.TokenGuideView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

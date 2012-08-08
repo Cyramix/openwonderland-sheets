@@ -16,9 +16,8 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.PassStrikeStudentPanel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -51,7 +50,7 @@ import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
  *
  * @author Kaustubh
  */
-@View(value = TokenSheet.class, roles = {Role.STUDENT})
+//@View(value = TokenSheet.class, roles = {Role.STUDENT})
 public class AllPassStrikeView extends JPanel implements SheetView, ResultListener {
 
     private ISocialManager manager;

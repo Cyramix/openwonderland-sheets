@@ -16,7 +16,7 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.utils;
 
 /**
  * This class creates makes a custom dimension for storing X, Y co-ordinates along 

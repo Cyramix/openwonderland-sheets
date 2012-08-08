@@ -1,4 +1,4 @@
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
 import java.awt.Color;
 import java.io.IOException;

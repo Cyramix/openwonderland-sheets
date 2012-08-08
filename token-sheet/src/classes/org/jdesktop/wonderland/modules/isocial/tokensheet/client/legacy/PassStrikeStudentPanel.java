@@ -16,7 +16,7 @@
  * subject to the "Classpath" exception as provided by the iSocial
  * project in the License file that accompanied this code.
  */
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.jdesktop.wonderland.modules.isocial.common.model.ResultDetails;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.CustomDimension;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.utils.CustomDimension;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 
 /**

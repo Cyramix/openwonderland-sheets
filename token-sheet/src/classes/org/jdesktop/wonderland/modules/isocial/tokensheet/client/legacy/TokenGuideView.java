@@ -1,7 +1,5 @@
-package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
+package org.jdesktop.wonderland.modules.isocial.tokensheet.client.legacy;
 
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.StudentDetailsPanel;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.panels.TokenStudentViewPanel;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -42,10 +40,10 @@ import org.jdesktop.wonderland.modules.isocial.common.model.Result;
 import org.jdesktop.wonderland.modules.isocial.common.model.ResultMetadata;
 import org.jdesktop.wonderland.modules.isocial.common.model.Role;
 import org.jdesktop.wonderland.modules.isocial.common.model.Sheet;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.AudioCacheHandler;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.AudioCacheHandlerException;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TokenSoundPlayer;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.VolumeConverter;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.AudioCacheHandler;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.AudioCacheHandlerException;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.TokenSoundPlayer;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.audio.VolumeConverter;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenResult;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.TokenSheet;
 import org.jdesktop.wonderland.modules.presencemanager.client.PresenceManager;
