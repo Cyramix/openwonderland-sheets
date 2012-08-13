@@ -46,41 +46,37 @@ public class StudentTokensSheet implements SheetView {
     private static final String NUMBER_OF_STUDENTS = "number.of.students";
     private Integer maxLessonTokens;
     private static final Logger logger = Logger.getLogger(StudentTokensSheet.class.getName());
-
     //THESE SCORES ARE UNIT-WIDE
     private Map<String, Integer> tokenScore;
-    
     //THIS IS THE LESSON-WIDE TOKEN PROGRESS FOR THE LOCAL CLIENT
     private int currentTokensForThisLesson = 0;
-    
+
     public StudentTokensSheet() {
         tokenScore = new HashMap<String, Integer>();
     }
-    
-    
-    
+
     public void initialize(ISocialManager ism, Sheet sheet, Role role) {
         this.manager = ism;
         this.sheet = sheet;
         this.tokenDetails = (TokenSheet) sheet.getDetails();
         try {
             tokenScore.putAll(UnitTokensRetriever.retrieve(this));
-            
-            for(Result r: manager.getResults(sheet.getId())) {
-                if(r.getCreator().equals(manager.getUsername())) {
-                    TokenResult tr = (TokenResult)r.getDetails();
+
+            for (Result r : manager.getResults(sheet.getId())) {
+                if (r.getCreator().equals(manager.getUsername())) {
+                    TokenResult tr = (TokenResult) r.getDetails();
                     Student sr = tr.getStudentResult();
                     currentTokensForThisLesson = sr.getTokensValue();
-                    
+
                 }
             }
-            
-            
-            
+
+
+
         } catch (IOException ex) {
             Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         logger.warning("STUDENT TOKENS SHEET INITIALIZE!");
 
     }
@@ -94,68 +90,63 @@ public class StudentTokensSheet implements SheetView {
     }
 
     public HUDDetailsWrapper open(HUD hud) {
-        try {
-            //create view
-            JLabel label = new JLabel();
-            
-            Integer students = Integer.valueOf(getMaxStudents());
-            Integer unitTokensPerStudent = Integer.valueOf(getMaxUnitTokens());
-            
-            StudentTokensViewSPI view = new StudentTokenViewImpl(label,
-                                                    students*unitTokensPerStudent,
-                                                    currentTokensForThisLesson,
-                                                    tokenScore);
-            
-            /*
-             * TEST DATA
-             */
+
+        //create view
+        JLabel label = new JLabel();
+
+        Integer students = Integer.valueOf(getMaxStudents());
+        Integer unitTokensPerStudent = Integer.valueOf(getMaxUnitTokens());
+
+        StudentTokensViewSPI view = new StudentTokenViewImpl(label,
+                students * unitTokensPerStudent,
+                currentTokensForThisLesson,
+                tokenScore);
+
+        /*
+         * TEST DATA
+         */
 
 //            students = 3;
 //            unitTokensPerStudent = 100;
 //            
 //            view = new StudentTokenViewImpl(label, students * unitTokensPerStudent);
-            
-            
-            /*
-             * END TEST DATA
-             */
 
 
-            //crate hud component
-            final HUDComponent hc = hud().createComponent(label);
-            hc.setDecoratable(false);
-            hc.setPreferredLocation(CompassLayout.Layout.NORTHWEST);
-
-            SwingUtilities.invokeLater(new Runnable() {
-
-                public void run() {
-                    hud().addComponent(hc);
-                    hc.setVisible(true);
-                }
-            });
+        /*
+         * END TEST DATA
+         */
 
 
+        //crate hud component
+        final HUDComponent hc = hud().createComponent(label);
+        hc.setDecoratable(false);
+        hc.setPreferredLocation(CompassLayout.Layout.NORTHWEST);
 
-            //create presenter
-            StudentTokensPresenter presenter = new StudentTokensPresenter(this,
-                    sheet.getId(),
-                    view,
-                    hc);
-
-
-            //create HUDDetails wrapper
-            HUDDetailsWrapper wrapper = new HUDDetailsWrapper(sheet.getName(),
-                    hc,
-                    label);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                hud().addComponent(hc);
+                hc.setVisible(true);
+            }
+        });
 
 
 
-            //return wrapper
-            return wrapper;
-        } catch (IOException ex) {
-            Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
-            return new HUDDetailsWrapper(null, null, null);
-        }
+        //create presenter
+        StudentTokensPresenter presenter = new StudentTokensPresenter(this,
+                sheet.getId(),
+                view,
+                hc);
+
+
+        //create HUDDetails wrapper
+        HUDDetailsWrapper wrapper = new HUDDetailsWrapper(sheet.getName(),
+                hc,
+                label);
+
+
+
+        //return wrapper
+        return wrapper;
     }
 
     public void close() {
@@ -165,23 +156,35 @@ public class StudentTokensSheet implements SheetView {
         return manager;
     }
 
-    private String getMaxStudents() throws IOException {
-
-        CSString state = (CSString) manager.getCohortState(NUMBER_OF_STUDENTS).getDetails();
-        return state.getValue();
+    private String getMaxStudents() {
+        try {
+            CSString state = (CSString) manager.getCohortState(NUMBER_OF_STUDENTS).getDetails();
+            return state.getValue();
+        } catch (IOException ex) {
+            Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
+            return "6"; //default value
+        }
     }
 
-    private String getMaxLessonTokens() throws IOException {
-
-        return getUnitStringState(POSSIBLE_PER_STUDENT_PER_LESSON);
+    private String getMaxLessonTokens() {
+        try {
+            return getUnitStringState(POSSIBLE_PER_STUDENT_PER_LESSON);
+        } catch (IOException ex) {
+            Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
+            return "10"; //default value
+        }
 
     }
-    
-    private String getMaxUnitTokens() throws IOException {
-        
-        return getUnitStringState(POSSIBLE_PER_STUDENT_PER_UNIT);
+
+    private String getMaxUnitTokens() {
+        try {
+            return getUnitStringState(POSSIBLE_PER_STUDENT_PER_UNIT);
+        } catch (IOException ex) {
+            Logger.getLogger(StudentTokensSheet.class.getName()).log(Level.SEVERE, null, ex);
+            return "50"; //default value:10 (tokens) * 5 (lessons)
+        }
     }
-    
+
     private String getUnitStringState(String stateKey) throws IOException {
         String unitId = manager.getCurrentInstance().getUnit().getId();
         CSString state = (CSString) manager.getCohortState(unitId + stateKey).getDetails();
@@ -193,14 +196,14 @@ public class StudentTokensSheet implements SheetView {
     }
 
     public void updateTokenScore(String name, int tokensValue) {
-        synchronized(tokenScore) {
+        synchronized (tokenScore) {
             Integer i = tokenScore.get(name);
-            
+
             i += tokensValue;
             tokenScore.put(name, i);
         }
     }
-    
+
     public Map<String, Integer> getTokenScore() {
         return tokenScore;
     }
@@ -208,7 +211,7 @@ public class StudentTokensSheet implements SheetView {
     public int getCurrentLessonTokens() {
         return currentTokensForThisLesson;
     }
-    
+
     public void setCurrentTokensForThisLesson(int tokens) {
         currentTokensForThisLesson = tokens;
     }

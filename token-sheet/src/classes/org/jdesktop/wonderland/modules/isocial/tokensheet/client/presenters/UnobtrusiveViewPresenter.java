@@ -12,9 +12,11 @@ import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
 import org.jdesktop.wonderland.client.hud.HUDManagerFactory;
 import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.AbstractTeamBehaviorView;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.TeamBehaviorViewSPI;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.TeamBehaviorReport;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.presenters.TeamBehaviorPresenter;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.TeamBehaviorTableReport;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.TeamBehaviorViewImpl;
 
 /**
@@ -73,7 +75,7 @@ public class UnobtrusiveViewPresenter implements MouseListener {
         
         
         //create view
-        TeamBehaviorViewSPI view = new TeamBehaviorViewImpl();
+        TeamBehaviorTableReport view = new TeamBehaviorTableReport();
         
         
         //create hud component stuff
@@ -87,7 +89,9 @@ public class UnobtrusiveViewPresenter implements MouseListener {
             }
         });
         
-         this.presenter = new TeamBehaviorPresenter(sheetId, model, view, hc);
+        //create interface object to pass to presenter
+        TeamBehaviorViewSPI spi = (TeamBehaviorViewSPI)view;
+         this.presenter = new TeamBehaviorPresenter(sheetId, model, spi, hc);
     }
     
 }

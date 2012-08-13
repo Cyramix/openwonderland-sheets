@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.TeamBehaviorViewSPI;
+import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.AbstractTeamBehaviorView;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.Student;
 
 /**
  *
  * @author Ryan
  */
-public class TeamBehaviorViewImpl extends TeamBehaviorViewSPI {
+public class TeamBehaviorViewImpl extends AbstractTeamBehaviorView {
 
     private int rows = 0;
     private static Logger logger = Logger.getLogger(TeamBehaviorViewImpl.class.getName());

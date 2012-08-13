@@ -5,12 +5,14 @@
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI;
 
 import java.util.Map;
+import javax.swing.JPanel;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.common.Student;
 
 /**
  *
  * @author Ryan
  */
-public interface TeamBehaviorViewSPI {
-    public void update(Map<String, Student> behaviors);
+public abstract class AbstractTeamBehaviorView extends JPanel implements TeamBehaviorViewSPI {
+    
+    public abstract void update(Map<String, Student> behaviors);
 }
