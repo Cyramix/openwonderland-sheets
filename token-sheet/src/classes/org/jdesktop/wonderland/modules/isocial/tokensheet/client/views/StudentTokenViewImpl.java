@@ -4,12 +4,16 @@
  */
 package org.jdesktop.wonderland.modules.isocial.tokensheet.client.views;
 
+import java.awt.Color;
+import java.awt.Image;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.SPI.StudentTokensViewSPI;
-import java.awt.*;
+//import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -18,9 +22,12 @@ import org.jdesktop.wonderland.client.hud.CompassLayout;
 import org.jdesktop.wonderland.client.hud.HUD;
 import org.jdesktop.wonderland.client.hud.HUDComponent;
 import org.jdesktop.wonderland.client.hud.HUDManagerFactory;
+import org.jdesktop.wonderland.modules.colormanager.client.ColorManager;
+import org.jdesktop.wonderland.modules.isocial.client.ISocialManager;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.utils.ImageAssigner;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.views.brushes.ScoreMeterBrush;
 import org.jdesktop.wonderland.modules.isocial.tokensheet.client.utils.TokenMeterSection;
+
 
 /**
  *
@@ -37,7 +44,9 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
                                 int initialCurrentTokens,
                                 Map<String, Integer> initialScore) {
         swingView = label;
-        brush = new ScoreMeterBrush(maxTokens);
+        
+        Color colorForCurrentUser = retrieveColorForName(null);
+        brush = new ScoreMeterBrush(colorForCurrentUser,maxTokens);
         
         /*
          * TEST DATA
@@ -96,11 +105,21 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
     }
 
     private Color retrieveColorForName(String key) {
-        /*
-         * Right now GREEN is used. In the future, this method should use
-         * the ColorManager module to assign and retrieve colors.
-         */
-        return Color.GREEN;
+        try {
+            /*
+             * Right now GREEN is used. In the future, this method should use
+             * the ColorManager module to assign and retrieve colors.
+             */
+            
+            String cohortID = ISocialManager.INSTANCE.getCurrentInstance().getCohortId();
+            String userID = ISocialManager.INSTANCE.getUsername();
+            
+           return ColorManager.INSTANCE.getColorFor(cohortID, userID);
+        } catch (IOException ex) {
+            Logger.getLogger(StudentTokenViewImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
 

@@ -45,10 +45,12 @@ public class ScoreMeterBrush {
     private int MAX_SCORE = 315;
     
     private static final Logger logger = Logger.getLogger(ScoreMeterBrush.class.getName());
-    public ScoreMeterBrush(int maxScore) {
+    private final Color frameColor;
+    public ScoreMeterBrush(Color frameColor, int maxScore) {
 //        Comparator<String> c = new SectionComparator();
         sections = new TreeMap<String, TokenMeterSection>(new SectionComparator());
         MAX_SCORE = maxScore;
+        this.frameColor = frameColor;
     }
     
     /**
@@ -75,7 +77,7 @@ public class ScoreMeterBrush {
         
         //get default URL, we want the default image (white) because we aren't
         //currently letting users have account-specific images.
-        String url = ImageAssigner.getImageNameFor(Color.BLACK);
+        String url = ImageAssigner.getImageNameFor(frameColor);
 
         //get the image from memory.
         Image backgroundImage = Toolkit.getDefaultToolkit().createImage(getClass().getResource(url));
