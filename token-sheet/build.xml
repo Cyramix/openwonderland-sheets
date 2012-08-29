@@ -24,6 +24,7 @@
         <path location="${modules.dir}/tools/security-group/build/lib/client/securitygroups-client.jar" />
         <path location="${modules.dir}/tools/security-group/dist/security-groups.jar" />
         <path location="${current.dir}/../../color-manager/build/client/color-manager-client.jar"/>
+	<path location="${current.dir}/../../../iSocial/color-manager/build/client/color-manager-client.jar"/>
     </pathconvert>
 
     <pathconvert property="module-common.classpath">

@@ -46,12 +46,17 @@ public class StudentTokensSheet implements SheetView {
     private static final String NUMBER_OF_STUDENTS = "number.of.students";
     private Integer maxLessonTokens;
     private static final Logger logger = Logger.getLogger(StudentTokensSheet.class.getName());
+    
+    private Map<String, Integer> tokenScoreBeforeThisLesson;
+    
     //THESE SCORES ARE UNIT-WIDE
     private Map<String, Integer> tokenScore;
+    
     //THIS IS THE LESSON-WIDE TOKEN PROGRESS FOR THE LOCAL CLIENT
     private int currentTokensForThisLesson = 0;
 
     public StudentTokensSheet() {
+        tokenScoreBeforeThisLesson = new HashMap<String, Integer>();
         tokenScore = new HashMap<String, Integer>();
     }
 
@@ -60,8 +65,12 @@ public class StudentTokensSheet implements SheetView {
         this.sheet = sheet;
         this.tokenDetails = (TokenSheet) sheet.getDetails();
         try {
+            //populate our model we're going to use for the graph
             tokenScore.putAll(UnitTokensRetriever.retrieve(this));
-
+            
+            //populate our model we're going to use to help update the previous model
+            tokenScoreBeforeThisLesson.putAll(tokenScore);
+            
             for (Result r : manager.getResults(sheet.getId())) {
                 if (r.getCreator().equals(manager.getUsername())) {
                     TokenResult tr = (TokenResult) r.getDetails();
@@ -197,10 +206,23 @@ public class StudentTokensSheet implements SheetView {
 
     public void updateTokenScore(String name, int tokensValue) {
         synchronized (tokenScore) {
-            Integer i = tokenScore.get(name);
-
-            i += tokensValue;
-            tokenScore.put(name, i);
+            
+            if(!tokenScore.containsKey(name)) {
+                tokenScore.put(name, tokensValue);
+            }
+            
+            if(!tokenScoreBeforeThisLesson.containsKey(name)) {
+                tokenScoreBeforeThisLesson.put(name, tokensValue);
+            }
+            
+            //get the value before this lesson
+            Integer originalAmount = tokenScoreBeforeThisLesson.get(name);
+            
+            //add the updated tokensValue to the original amount so we get
+            //the correct value even if the action is a decremention or incremention 
+            Integer currentScore = originalAmount + tokensValue;
+            
+            tokenScore.put(name, currentScore);
         }
     }
 

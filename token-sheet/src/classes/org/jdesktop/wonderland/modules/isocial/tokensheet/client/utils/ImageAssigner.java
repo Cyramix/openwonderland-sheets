@@ -62,9 +62,9 @@ public class ImageAssigner {
         colors.put(Color.decode("#008848"), "green.png");
         colors.put(Color.decode("#005CA7"), "blue.png");
         colors.put(Color.decode("#A5CD39"), "lime.png");
-        colors.put(Color.decode("#D1662C"), "lime.png");
-        colors.put(Color.decode("#7E4298"), "gold.png");
+        colors.put(Color.decode("#D1662C"), "gold.png");
         colors.put(Color.decode("#7E4298"), "purple.png");
+//        colors.put(Color.decode("#7E4298"), "purple.png");
         colors.put(Color.decode("#47A4AD"), "turquoise.png");
         
     }

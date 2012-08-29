@@ -45,7 +45,7 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
                                 Map<String, Integer> initialScore) {
         swingView = label;
         
-        Color colorForCurrentUser = retrieveColorForName(null);
+        Color colorForCurrentUser = retrieveColorForName(ISocialManager.INSTANCE.getUsername());
         brush = new ScoreMeterBrush(colorForCurrentUser,maxTokens);
         
         /*
@@ -112,9 +112,9 @@ public class StudentTokenViewImpl implements StudentTokensViewSPI {
              */
             
             String cohortID = ISocialManager.INSTANCE.getCurrentInstance().getCohortId();
-            String userID = ISocialManager.INSTANCE.getUsername();
+//            String userID = ISocialManager.INSTANCE.getUsername();
             
-           return ColorManager.INSTANCE.getColorFor(cohortID, userID);
+           return ColorManager.INSTANCE.getColorFor(cohortID, key);
         } catch (IOException ex) {
             Logger.getLogger(StudentTokenViewImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
